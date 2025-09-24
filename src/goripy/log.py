@@ -6,10 +6,14 @@ class TqdmLogger:
     """
     Writing class meant to be passed to tqdm when logging to a file.
 
-    :param logger: logging.Logger
-        Logger used for logging.
-    :param log_level: int, default=logging.INFO
-        Log level to use when logging.
+    Args:
+
+        logger (logging.Logger):
+            Logger used for logging.
+
+        log_level (int, optional):
+            Log level to use when logging.
+            Defaults to logging.INFO.
     """
     
     def __init__(
@@ -40,10 +44,14 @@ class StderrLogger:
     """
     Writing class meant to substitute sys.stderr for redirection.
 
-    :param logger: logging.Logger
-        Logger used for logging.
-    :param log_level: int, default=logging.ERROR
-        Log level to use when logging.
+    Args:
+
+        logger (logging.Logger):
+            Logger used for logging.
+            
+        log_level (int, optional):
+            Log level to use when logging.
+            Defaults to logging.ERROR.
     """
     
     def __init__(

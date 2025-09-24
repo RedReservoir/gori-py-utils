@@ -9,15 +9,20 @@ def get_new_uuid(
     """
     Generates a new UUID.
 
-    :param uuid_set: set, optional
-        UUID set to check for already existing UUIDs.
-        No checks are made when no UUID set is passed.
-    :param update_uuid_set: bool, default=False
-        Whether to update the UUID set with the new UUID.
-        Ignored when no UUID set is passed.
+    Args:
+
+        uuid_set (set, optional):
+            UUID set to check for already existing UUIDs.
+            No checks are made when no UUID set is passed.
+
+        update_uuid_set (bool, optional):
+            Whether to update the UUID set with the new UUID.
+            Ignored when no UUID set is passed.
+
+    Returns:
     
-    :return str:
-        The new generated UUID.
+        str:
+            The new generated UUID.
     """
 
     new_uuid = None

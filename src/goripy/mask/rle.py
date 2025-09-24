@@ -6,11 +6,15 @@ def mask_to_rle(mask):
     """
     Encodes a binary mask into RLE.
 
-    :param mask: numpy.ndarray
-        2D boolean numpy array (H x W).
+    Args:
 
-    :return: list of int
-        RLE of the binary mask.
+        mask (numpy.ndarray):
+            2D boolean numpy array (H x W).
+
+    Returns:
+
+        list of int:
+            RLE of the binary mask.
     """
 
     mask_flat = mask.ravel(order="F")
@@ -26,15 +30,20 @@ def mask_to_rle(mask):
 
 def rle_to_mask(rle, shape):
     """
-    Decodes a binary mask into RLE.
+    Decodes a binary mask from RLE.
 
-    :param rle: list of int
-        RLE of the binary mask.
-    :param shape: 2-tuple of int
-        The original dimensions of the mask (H x W).
+    Args:
+    
+        rle (list of int):
+            RLE of the binary mask.
 
-    :return: numpy.ndarray
-        2D boolean numpy array (H x W).
+        shape (tuple of int):
+            The original dimensions of the mask (H x W).
+
+    Returns:
+
+        numpy.ndarray:
+            2D boolean numpy array (H x W).
     """
 
     mask_flat = numpy.zeros(shape[0] * shape[1], dtype=bool)

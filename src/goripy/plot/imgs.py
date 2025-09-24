@@ -44,44 +44,67 @@ def show_imgs(
     """
     Quickly generate a plot that shows multiple images and their data.
 
-    :param img_list: list of numpy.ndarray
-        List of images to show.
-    :param title_mode: ShowImgsTitleMode
-        Options for showing titles on top of images.
-          - NO_TITLE: No titles will be shown.
-          - CUSTOM: Custom titles passed through the title_list argument will be shown.
-          - IMAGE_INFO: Image shape, data type and range will be shown.
-    :param title_list: list of str, optional
-        Titles to show on top of images.
-        Sometimes ignored or overwritten depending on the title_mode argument.
-    :param suptitle: str, optional
-        Title to show on top of the plot. If not provided, no title will be shown.
-    :param grid_mode: ShowImgsGridMode
-        Options for controlling the image grid.
-          - ONE_ROW: One row of images will be shown.
-          - FIXED_ROWS: A custom number of rows passed through the num_rows argument will be shown.
-          - ADAPTIVE: Adaptive grid distribution based on the wh_ratio, plt_size_w, plt_size_h arguments.
-    :param num_rows: int, default=1
-        Number of rows in the image grid.
-        Sometimes ignored or overwritten depending on the grid_mode argument.
-    :param num_cols: int, default=1
-        Number of columns in the image grid.
-        Sometimes ignored or overwritten depending on the grid_mode argument.
-    :param wh_ratio: float, default=1.0
-        Width-to-height ratio in the image grid.
-        Sometimes ignored or overwritten depending on the grid_mode argument.
-    :param plt_size_w: float, default=5.0
-        Individual image width.
-    :param plt_size_h: float, default=5.0
-        Individual image height.
-    :param img_ticks: bool, default=True
-        If True, shows image size ticks.
-    :param plot_filename: str, optional
-        Filename to which to save the plot image to.
-        If not provided, the plot will be shown.
-    :param dpi: int, default=100
-        Dots per inch in the plot image.
-        Ignored if the plot_filename argument is not provided.
+    Args:
+    
+        img_list (list of numpy.ndarray):
+            List of images to show.
+
+        title_mode (ShowImgsTitleMode):
+            Options for showing titles on top of images.
+            
+            - NO_TITLE: No titles will be shown.
+            - CUSTOM: Custom titles passed through the title_list argument will be shown.
+            - IMAGE_INFO: Image shape, data type and range will be shown.
+
+        title_list (list of str, optional):
+            Titles to show on top of images.
+            Sometimes ignored or overwritten depending on the title_mode argument.
+
+        suptitle (str, optional):
+            Title to show on top of the plot. If not provided, no title will be shown.
+
+        grid_mode (ShowImgsGridMode):
+            Options for controlling the image grid.
+
+            - ONE_ROW: One row of images will be shown.
+            - FIXED_ROWS: A custom number of rows passed through the num_rows argument will be shown.
+            - ADAPTIVE: Adaptive grid distribution based on the wh_ratio, plt_size_w, plt_size_h arguments.
+
+        num_rows (int, optional):
+            Number of rows in the image grid.
+            Sometimes ignored or overwritten depending on the grid_mode argument.
+            Defaults to 1.
+
+        num_cols (int, optional):
+            Number of columns in the image grid.
+            Sometimes ignored or overwritten depending on the grid_mode argument.
+            Defaults to 1.
+
+        wh_ratio (float, optional):
+            Width-to-height ratio in the image grid.
+            Sometimes ignored or overwritten depending on the grid_mode argument.
+            Defaults to 1.0.
+
+        plt_size_w (float, optional):
+            Individual image width.
+            Defaults to 5.0.
+
+        plt_size_h (float, optional):
+            Individual image height.
+            Defaults to 5.0.
+
+        img_ticks (bool, optional):
+            If True, shows image size ticks.
+            Defaults to True.
+
+        plot_filename (str, optional):
+            Filename to which to save the plot image to.
+            If not provided, the plot will be shown.
+
+        dpi (int, optional):
+            Dots per inch in the plot image.
+            Ignored if the plot_filename argument is not provided.
+            Defaults to 100.
     """
 
     # Title modes

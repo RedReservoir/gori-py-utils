@@ -11,16 +11,23 @@ def compute_freq_weights(
     Computes item weights based on inverse frequency.
     Takes into account item counts.
 
-    :param freq_arr: numpy.ndarray
-        1D array with the frequency values.
-    :param freq_pow: float, default=1.0
-        Power of reciprocal for frequency weight calculation.
-    :param freq_ratio_arr, optional
-        1D numpy array with the global item ratios. This array will be internally normalized.
-        If not provided, uniform weights will be used.
+    Args:
+    
+        freq_arr (numpy.ndarray):
+            1D array with the frequency values.
 
-    :return: numpy.ndarray
-        The computed weight values.
+        freq_pow (float, optional):
+            Power of reciprocal for frequency weight calculation.
+            Defaults to 1.0.
+
+        freq_ratio_arr (numpy.ndarray, optional):
+            1D numpy array with the global item ratios. This array will be internally normalized.
+            If not provided, uniform weights will be used.
+
+    Returns:
+
+        numpy.ndarray:
+            The computed weight values.
     """
 
     # Compute default parameters
@@ -57,25 +64,38 @@ def compute_pos_neg_freq_weights(
     """
     Computes item weights based on inverse frequency.
     Takes into account item counts and pos/neg counts.
-    
-    :param pos_freq_arr: numpy.ndarray
-        1D array with the positive frequency values.
-    :param neg_freq_arr: numpy.ndarray
-        1D array with the negative frequency values.
-    :param freq_pow: float, default=1.0
-        Power of reciprocal for frequency weight calculation.
-    :param pos_neg_pow: float, default=1.0
-        Power of reciprocal for positive/negative frequency weight calculation.
-    :param freq_ratio_arr, optional
-        1D numpy array with the global item ratios. This array will be internally normalized.
-        If not provided, uniform weights will be used.
-    :param pos_neg_ratio: float, default=1.0
-        Ratio of positive global weight over negative global weight.
 
-    :return pos_wt_arr: numpy.ndarray
-        The computed positive weight values.
-    :return wt_arr: numpy.ndarray
-        The computed weight values.
+    Args:
+
+        pos_freq_arr (numpy.ndarray):
+            1D array with the positive frequency values.
+
+        neg_freq_arr (numpy.ndarray):
+            1D array with the negative frequency values.
+
+        freq_pow (float, optional):
+            Power of reciprocal for frequency weight calculation.
+            Defaults to 1.0.
+
+        pos_neg_pow (float, optional):
+            Power of reciprocal for positive/negative frequency weight calculation.
+            Defaults to 1.0.
+
+        freq_ratio_arr (numpy.ndarray, optional):
+            1D numpy array with the global item ratios. This array will be internally normalized.
+            If not provided, uniform weights will be used.
+
+        pos_neg_ratio (float, optional):
+            Ratio of positive global weight over negative global weight.
+            Defaults to 1.0.
+
+    Returns:
+
+        tuple of numpy.ndarray:
+            A tuple containing:
+            
+            - pos_wt_arr: The computed positive weight values.
+            - wt_arr: The computed overall weight values.
     """
 
     # Compute default parameters

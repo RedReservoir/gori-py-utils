@@ -7,12 +7,15 @@ def pickle_test(obj):
     Checks if an object is pickable.
     Used for debug purposes.
 
-    :param obj: any
-        Object to pickle.
+    Args:
     
-    :return: str or bool
-        Returns True if object is pickable.
-        Returns a string with the exception type and message otherwise.
+        obj (any):
+            Object to pickle.
+
+    Returns:
+
+        str or bool: Returns True if object is pickable.
+            Returns a string with the exception type and message otherwise.
     """
     
     try:

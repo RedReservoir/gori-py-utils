@@ -13,21 +13,30 @@ def compute_multibatches_dataset(
     Computes the number of batches per dataset and step in a multi-dataset, multi-gpu training.
     This version uses dataset lengths to keep track of dataloader progress.
 
-    :param dataset_len_arr: numpy.ndarray
-        1D numpy array with each dataset length.
-    :param dataloader_batch_size_arr: numpy.ndarray
-        1D numpy array with each dataloader batch size.
-    :param dataset_point_size_arr: numpy.ndarray
-        1D numpy array with the dataset point size (number of data points per element).
-    :param min_step_items: int
-        Minimum number of desired items in each step.
-    :param world_size: int
-        Number of gpus.
+    Args:
+    
+        dataset_len_arr (numpy.ndarray):
+            1D numpy array with each dataset length.
 
-    :return: numpy.ndarray
-        2D numpy array with the number of batches per step.
-          - Axis 0: Step.
-          - Axis 1: Dataset.
+        dataloader_batch_size_arr (numpy.ndarray):
+            1D numpy array with each dataloader batch size.
+
+        dataset_point_size_arr (numpy.ndarray):
+            1D numpy array with the dataset point size (number of data points per element).
+
+        min_step_items (int):
+            Minimum number of desired items in each step.
+
+        world_size (int):
+            Number of gpus.
+
+    Returns:
+
+        numpy.ndarray:
+            2D numpy array with the number of batches per step.
+
+            - Axis 0: Step.
+            - Axis 1: Dataset.
     """
 
     num_datasets = len(dataset_len_arr)
@@ -76,21 +85,30 @@ def compute_multibatches_dataloder(
     Computes the number of batches per dataset and step in a multi-dataset, multi-gpu training.
     This version uses dataloader lengths to keep track of dataloader progress.
 
-    :param dataloader_len_arr: numpy.ndarray
-        1D numpy array with each dataloader length.
-    :param dataloader_batch_size_arr: numpy.ndarray
-        1D numpy array with each dataloader batch size.
-    :param dataset_point_size_arr: numpy.ndarray
-        1D numpy array with the dataset point size (number of items per data point).
-    :param min_step_items: int
-        Minimum number of desired items in each step.
-    :param world_size: int
-        Number of gpus.
+    Args:
 
-    :return: numpy.ndarray
-        2D numpy array with the number of batches per step.
-          - Axis 0: Step.
-          - Axis 1: Dataset.
+        dataloader_len_arr (numpy.ndarray):
+            1D numpy array with each dataloader length.
+
+        dataloader_batch_size_arr (numpy.ndarray):
+            1D numpy array with each dataloader batch size.
+
+        dataset_point_size_arr (numpy.ndarray):
+            1D numpy array with the dataset point size (number of items per data point).
+
+        min_step_items (int):
+            Minimum number of desired items in each step.
+
+        world_size (int):
+            Number of gpus.
+
+    Returns:
+
+        numpy.ndarray:
+            2D numpy array with the number of batches per step.
+
+            - Axis 0: Step.
+            - Axis 1: Dataset.
     """
 
     num_datasets = len(dataloader_len_arr)

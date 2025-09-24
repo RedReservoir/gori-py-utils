@@ -8,11 +8,15 @@ def compute_anno_idx_to_job_num_arr(root_anno_xml_item):
     """
     Computes the Job ID of each Annotation ID from a CVAT format annotation file.
 
-    :param root_anno_xml_item: xml.etree.ElementTree.ElementTree
-        Root XML node of the CVAT annotation file.
+    Args:
 
-    :return: numpy.ndarray
-        A 1D numpy array where, for each Annotation ID (index), the Job ID is stored (value).
+        root_anno_xml_item (xml.etree.ElementTree.ElementTree):
+            Root XML node of the CVAT annotation file.
+
+    Returns:
+    
+        numpy.ndarray:
+            A 1D numpy array where, for each Annotation ID (index), the Job ID is stored (value).
     """
 
     meta_xml_item = root_anno_xml_item.find("meta")

@@ -26,3 +26,14 @@ After installation, import code from this package using `goripy` as the top-leve
 ```
 import goripy.<...>
 ```
+
+## Documentation
+
+Documentation in HTML format can be generated with `sphinx` by running:
+
+```
+cd docs
+make html
+```
+
+Afterwards, you can browse the documentation by viewing the `docs/_build/html/index.html` file in your web browser.

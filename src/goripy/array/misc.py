@@ -6,14 +6,19 @@ def first_argwhere_zidxs(arr, vals):
     """
     Computes the indices of the first occurrence of values in an original array.
 
-    :param arr: numpy.ndarray
-        1D original array to search in.
-    :param vals: numpy.ndarray
-        1D original array with the values to search.
+    Args:
 
-    :return: numpy.ndarray
-        The computed first occurrence indices.
-        The following satisfies: `arr[zidxs] = vals`.
+        arr (numpy.ndarray):
+            1D original array to search in.
+
+        vals (numpy.ndarray):
+            1D array with the values to search.
+
+    Returns:
+
+        numpy.ndarray:
+            The computed first occurrence indices.
+            The following satisfies: `arr[zidxs] = vals`.
     """
 
     zidxs = []
@@ -31,15 +36,21 @@ def discrete_linspace_sizes(start, stop, num):
     """
     Computes sizes of a discretized linspace.
 
-    :param start: int
-        The starting value of the sequence.
-    :param stop: int
-        The ending value of the sequence.
-    :param num_steps: int
-        Number of samples to generate. Must be non-negative.
+    Args:
+
+        start (int):
+            The starting value of the sequence.
+
+        stop (int):
+            The ending value of the sequence.
+
+        num_steps (int):
+            Number of samples to generate. Must be non-negative.
+
+    Returns:
     
-    return: numpy.ndarray
-        Discretized linspace sizes.
+        numpy.ndarray:
+            Discretized linspace sizes.
     """
 
     disc_linspace_limits = numpy.round(numpy.linspace(start, stop, num)).astype("int")

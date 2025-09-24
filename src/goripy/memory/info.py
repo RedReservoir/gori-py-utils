@@ -2,16 +2,20 @@ def sprint_fancy_num_bytes(num_bytes, unit=None):
     """
     Generates a fancy string representation of memory quantity.
 
-    :param num_bytes: float
-        Number of bytes.
-    :param unit: str
-        Desired unit
+    Args:
 
+        num_bytes (float):
+            Number of bytes.
+            
+        unit (str):
+            Desired unit.
 
-    :return: str
-        Fancy string representation of the memory quantity.
+    Returns:
+
+        str:
+            Fancy string representation of the memory quantity.
     """
-    
+
     units = ["B", "KiB", "MiB", "GiB"]
     unit_idx = 0
 

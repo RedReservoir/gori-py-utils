@@ -11,13 +11,19 @@ def load_module(
     """
     Loads a Python module without saving it to cache, so it can be deleted later.
 
-    :param module_path: str
-        Path to the Python module to load.
-    :param dont_write_bytecode: bool, default=True
-        If True, does not write `__pycache__` bytecode when loading the module.
+    Args:
     
-    :return: any
-        The loaded Python module as an object.
+        module_path (str):
+            Path to the Python module to load.
+
+        dont_write_bytecode (bool, optional):
+            If True, does not write `__pycache__` bytecode when loading the module.
+            Defaults to True.
+
+    Returns:
+
+        any:
+            The loaded Python module as an object.
     """
 
     module_name = os.path.splitext(os.path.basename(module_path))[0]

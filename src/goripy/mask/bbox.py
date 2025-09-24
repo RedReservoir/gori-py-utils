@@ -6,11 +6,15 @@ def mask_to_bbox(mask):
     """
     Computes bbox limits from a binary mask.
 
-    :param mask: numpy.ndarray
-        2D boolean numpy array (H x W).
+    Args:
+    
+        mask (numpy.ndarray):
+            2D boolean numpy array (H x W).
 
-    :return: 4-tuple of int
-        The bbox limits (x0, y0, x1, y1).
+    Returns:
+
+        tuple of int:
+            The bbox limits (x0, y0, x1, y1).
     """
 
     mask_x = numpy.any(mask, axis=0)

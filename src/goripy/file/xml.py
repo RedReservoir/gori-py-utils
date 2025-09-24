@@ -9,10 +9,13 @@ def save_xml(
     """
     Saves an object to an XML file.
 
-    :param xml_obj: xml.etree.ElementTree
-        XML object to save.
-    :param xml_filename: str
-        Name of the XML file.
+    Args:
+
+        xml_obj (xml.etree.ElementTree):
+            XML object to save.
+
+        xml_filename (str):
+            Name of the XML file.
     """
 
     def _pretty_print(current, parent=None, index=-1, depth=0):
@@ -46,11 +49,15 @@ def load_xml(
     """
     Loads an object from an XML file.
 
-    :param xml_filename: str
-        Name of the XML file.
+    Args:
 
-    :return: xml.etree.ElementTree
-        Loaded XML object.
+        xml_filename (str):
+            Name of the XML file.
+
+    Returns:
+    
+        xml.etree.ElementTree:
+            Loaded XML object.
     """
 
     xml_obj = xml.etree.ElementTree.parse(xml_filename)

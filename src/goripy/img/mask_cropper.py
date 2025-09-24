@@ -27,13 +27,19 @@ class SquareMaskCropper:
         """
         Fits this object using a reference mask, to later crop other images and masks.
 
-        :param mask: numpy.ndarray
-            2D numpy array with `bool` dtype to use as reference for cropping.
-        :param border_ratio: float, default=0.0
-            Percentage of border wrt. to the crop contents.
-            Must be a float in the [0, 1) interval.
-        :param min_size: int, default=128
-            Minimum original image height and width to crop.
+        Args:
+        
+            mask (numpy.ndarray):
+                2D numpy array with `bool` dtype to use as reference for cropping.
+
+            border_ratio (float, optional):
+                Percentage of border wrt. to the crop contents.
+                Must be a float in the [0, 1) interval.
+                Defaults to 0.0.
+
+            min_size (int, optional):
+                Minimum original image height and width to crop.
+                Defaults to 128.
         """
 
         # Get original size and bbox limits
@@ -100,13 +106,19 @@ class SquareMaskCropper:
         """
         Crops an image.
 
-        :param img: numpy.ndarray
-            Image to crop with the mask.
-        :param bkg: any, default=0
-            Values to set as background.
-        
-        :return: numpy.ndarray
-            The cropped image.
+        Args:
+
+            img (numpy.ndarray):
+                Image to crop with the mask.
+
+            bkg (any, optional):
+                Values to set as background.
+                Defaults to 0.
+
+        Returns:
+
+            numpy.ndarray:
+                The cropped image.
         """
 
         if not self._is_fit:
