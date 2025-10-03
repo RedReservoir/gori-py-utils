@@ -6,17 +6,25 @@ def prec_metric_fun(tp, fp, fn, tn):
     """
     Computes the Precision metric using confusion matrix aggregates.
 
-    :param tp: numpy.ndarray
-        A (num_classes) array with the True Positive count per class.
-    :param fp: numpy.ndarray
-        A (num_classes) array with the False Positive count per class.
-    :param fn: numpy.ndarray
-        A (num_classes) array with the False Negative count per class.
-    :param tn: numpy.ndarray
-        A (num_classes) array with the True Negative count per class.
+    Array dimensions:
 
-    :return: numpy.ndarray
-        A (num_classes) array with the Precision metric per class.
+    - C: Number of classes
+
+    Args:
+
+        tp (numpy.ndarray):
+            A (C) dimensional array with the True Positive count per class.
+        fp (numpy.ndarray):
+            A (C) dimensional array with the False Positive count per class.
+        fn (numpy.ndarray):
+            A (C) dimensional array with the False Negative count per class.
+        tn (numpy.ndarray):
+            A (C) dimensional array with the True Negative count per class.
+
+    Returns:
+
+        numpy.ndarray:
+            A (C) dimensional array with the Precision metric per class.
     """
 
     num = tp
@@ -30,17 +38,25 @@ def rec_metric_fun(tp, fp, fn, tn):
     """
     Computes the Recall metric using confusion matrix aggregates.
 
-    :param tp: numpy.ndarray
-        A (num_classes) array with the True Positive count per class.
-    :param fp: numpy.ndarray
-        A (num_classes) array with the False Positive count per class.
-    :param fn: numpy.ndarray
-        A (num_classes) array with the False Negative count per class.
-    :param tn: numpy.ndarray
-        A (num_classes) array with the True Negative count per class.
+    Array dimensions:
 
-    :return: numpy.ndarray
-        A (num_classes) array with the Recall metric per class.
+    - C: Number of classes
+
+    Args:
+
+        tp (numpy.ndarray):
+            A (C) dimensional array with the True Positive count per class.
+        fp (numpy.ndarray):
+            A (C) dimensional array with the False Positive count per class.
+        fn (numpy.ndarray):
+            A (C) dimensional array with the False Negative count per class.
+        tn (numpy.ndarray):
+            A (C) dimensional array with the True Negative count per class.
+
+    Returns:
+
+        numpy.ndarray:
+            A (C) dimensional array with the Recall metric per class.
     """
 
     num = tp
@@ -54,17 +70,25 @@ def acc_metric_fun(tp, fp, fn, tn):
     """
     Computes the Accuracy metric using confusion matrix aggregates.
 
-    :param tp: numpy.ndarray
-        A (num_classes) array with the True Positive count per class.
-    :param fp: numpy.ndarray
-        A (num_classes) array with the False Positive count per class.
-    :param fn: numpy.ndarray
-        A (num_classes) array with the False Negative count per class.
-    :param tn: numpy.ndarray
-        A (num_classes) array with the True Negative count per class.
+    Array dimensions:
 
-    :return: numpy.ndarray
-        A (num_classes) array with the Accuracy metric per class.
+    - C: Number of classes
+
+    Args:
+
+        tp (numpy.ndarray):
+            A (C) dimensional array with the True Positive count per class.
+        fp (numpy.ndarray):
+            A (C) dimensional array with the False Positive count per class.
+        fn (numpy.ndarray):
+            A (C) dimensional array with the False Negative count per class.
+        tn (numpy.ndarray):
+            A (C) dimensional array with the True Negative count per class.
+
+    Returns:
+
+        numpy.ndarray:
+            A (C) dimensional array with the Accuracy metric per class.
     """
 
     num = tp + tn
@@ -78,17 +102,25 @@ def f1_metric_fun(tp, fp, fn, tn):
     """
     Computes the F1-Score metric using confusion matrix aggregates.
 
-    :param tp: numpy.ndarray
-        A (num_classes) array with the True Positive count per class.
-    :param fp: numpy.ndarray
-        A (num_classes) array with the False Positive count per class.
-    :param fn: numpy.ndarray
-        A (num_classes) array with the False Negative count per class.
-    :param tn: numpy.ndarray
-        A (num_classes) array with the True Negative count per class.
+    Array dimensions:
 
-    :return: numpy.ndarray
-        A (num_classes) array with the F1-Score metric per class.
+    - C: Number of classes
+
+    Args:
+
+        tp (numpy.ndarray):
+            A (C) dimensional array with the True Positive count per class.
+        fp (numpy.ndarray):
+            A (C) dimensional array with the False Positive count per class.
+        fn (numpy.ndarray):
+            A (C) dimensional array with the False Negative count per class.
+        tn (numpy.ndarray):
+            A (C) dimensional array with the True Negative count per class.
+
+    Returns:
+
+        numpy.ndarray:
+            A (C) dimensional array with the F1-Score metric per class.
     """
 
     num = 2 * tp
@@ -102,20 +134,29 @@ def f1b_metric_fun(tp, fp, fn, tn, b=1.0):
     """
     Computes the FBeta-Score metric using confusion matrix aggregates.
 
-    :param tp: numpy.ndarray
-        A (num_classes) array with the True Positive count per class.
-    :param fp: numpy.ndarray
-        A (num_classes) array with the False Positive count per class.
-    :param fn: numpy.ndarray
-        A (num_classes) array with the False Negative count per class.
-    :param tn: numpy.ndarray
-        A (num_classes) array with the True Negative count per class.
-    :param b: float, default=1.0
-        Value to use as "beta" in the FBeta-Score calculation.
-        Meaning: Recall is "beta" times as important as Precision.
+    Array dimensions:
 
-    :return: numpy.ndarray
-        A (num_classes) array with the FBeta-Score metric per class.
+    - C: Number of classes
+
+    Args:
+
+        tp (numpy.ndarray):
+            A (C) dimensional array with the True Positive count per class.
+        fp (numpy.ndarray):
+            A (C) dimensional array with the False Positive count per class.
+        fn (numpy.ndarray):
+            A (C) dimensional array with the False Negative count per class.
+        tn (numpy.ndarray):
+            A (C) dimensional array with the True Negative count per class.
+        b (float):
+            Value to use as "beta" in the FBeta-Score calculation.
+            Meaning: Recall is "beta" times as important as Precision.
+            Defaults to 1.0 (equal importance).
+
+    Returns:
+
+        numpy.ndarray:
+            A (C) dimensional array with the FBeta-Score metric per class.
     """
 
     b2 = b * b
@@ -135,16 +176,27 @@ def compute_conf_metric_arr(
     """
     Computes a confusion metric array using confusion matrix aggregates.
 
-    :param conf_aggs: numpy.ndarray
-        A (num_classes x 4) numpy array with the confusion matrix aggregates.
-        Aggregates are expected in this order: tp, fp, fn, tn.
-    :param metric_fun: callable
-        A function that takes confusion aggregates and returns a metric.
-    :param pn_weighted: bool, default=True
-        If True, balances amount of positive and negative examples (target).
+    Array dimensions:
+
+    - C: Number of classes
+
+    Args:
+
+        conf_aggs (numpy.ndarray):
+            A (C x 4) dimensional array with the confusion matrix aggregates.
+            Aggregates are expected in this order: tp, fp, fn, tn.
+
+        metric_fun (callable):
+            A function that takes confusion aggregates and returns a metric.
+
+        pn_weighted (bool):
+            If True, balances amount of positive and negative examples (target).
+            Defaults to True.
     
-    :return: float or numpy.ndarray
-        A (num_classes) numpy array with the confusion metric for each class.
+    Returns
+
+        numpy.ndarray:
+            A (C) dimensional array with the confusion metric for each class.
     """
 
     tp_arr = conf_aggs[:, 0].copy()
@@ -171,31 +223,41 @@ def compute_conf_metric_arr(
 def compute_conf_metric_avg(
     conf_metric_arr,
     conf_aggs,
-    average=None
+    average_method
 ):
     """
-    :param conf_metric_arr: numpy.ndarray
-        A (num_classes) numpy array with the metric per class.
-    :param conf_aggs: numpy.ndarray
-        A (num_classes x 4) numpy array with the confusion matrix aggregates.
-        Aggregates are expected in this order: tp, fp, fn, tn.
-    :param average: str
-        Possible values:
-          - "macro": Averages metric giving equal weight to each class.
-          - "micro": Averages metric weighting each class by frequency.
-    
-    :return: float
-        The averaged confusion metric.
+    Averages confusion metrics computed per-class.
+
+    Array dimensions:
+
+    - C: Number of classes
+
+    Args:
+
+        conf_metric_arr (numpy.ndarray):
+            A (C) dimensional array with the confusion metric for each class.
+
+        conf_aggs (numpy.ndarray):
+            A (C x 4) dimensional array with the confusion matrix aggregates.
+            Aggregates are expected in this order: tp, fp, fn, tn.
+
+        average_method (str):
+            Possible values:
+
+            - "macro": Averages metric giving equal weight to each class.
+            - "micro": Averages metric weighting each class by frequency.
+        
+    Returns
+
+        float:
+            The averaged confusion metric.
     """
 
-    if average is None:
-        raise ValueError("Provide the `average` parameter")
-
-    if average == "macro":
+    if average_method == "macro":
         
         metric = numpy.nanmean(conf_metric_arr)
 
-    if average == "micro":
+    if average_method == "micro":
         
         tp_arr = conf_aggs[:, 0].copy()
         fn_arr = conf_aggs[:, 2].copy()

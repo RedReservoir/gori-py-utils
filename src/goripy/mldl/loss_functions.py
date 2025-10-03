@@ -52,7 +52,7 @@ class CategoricalCrossEntropyLoss():
         Returns:
 
             torch.Tensor:
-                (B)-dimensional tensor with the unreduced loss values.
+                (B) dimensional tensor with the unreduced loss values.
         """
 
         pred_probs = torch.softmax(pred_logits, dim=1)
@@ -106,7 +106,7 @@ def categorical_cross_entropy_loss(
     Returns:
 
         torch.Tensor:
-            (B)-dimensional tensor with the unreduced loss values.
+            (B) dimensional tensor with the unreduced loss values.
     """
 
     pred_probs = torch.softmax(pred_logits, dim=1)
@@ -180,7 +180,7 @@ class BinaryCrossEntropyLoss():
         Returns:
 
             torch.Tensor:
-                (B)-dimensional tensor with the unreduced loss values.
+                (B) dimensional tensor with the unreduced loss values.
         """
 
         pred_probs = torch.sigmoid(pred_logits)        
@@ -244,7 +244,7 @@ def binary_cross_entropy_loss(
     Returns:
 
         torch.Tensor:
-            (B)-dimensional tensor with the unreduced loss values.
+            (B) dimensional tensor with the unreduced loss values.
     """
 
     pred_probs = torch.sigmoid(pred_logits)        

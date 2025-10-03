@@ -11,17 +11,7 @@ def load_module(
     """
     Loads a Python module without saving it to sys.modules, so it can be deleted later.
 
-<<<<<<< HEAD
-    :param module_path: str
-        Path to the Python module to load.
-    :param sys_reg_module_name: str, optional
-        Name to register the module under in `sys.modules`.
-        If not provided, the module is not registered to `sys.modules`.
-    :param dont_write_bytecode: bool, default=True
-        If True, does not write `__pycache__` bytecode when loading the module.
-=======
     Args:
->>>>>>> e9d2cb0e8a7043f340c46635279e31ab9fdc797a
     
         module_path (str):
             Path to the Python module to load.
