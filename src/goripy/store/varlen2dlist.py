@@ -40,12 +40,16 @@ class VariableLength2DListStorage:
         """
         Fills this object with data coming from a 2D list.
 
-        :param orig_value_llist: 2D list
-            2D list with the values to store.
-        :param value_numpy_dtype: any
-            Numpy data type to use for value storage.
-        :param len_numpy_dtype: any
-            Numpy data type to use for value length storage.
+        Args:
+        
+            orig_value_llist (list):
+                2D list with the values to store.
+
+            value_numpy_dtype (any):
+                Numpy data type to use for value storage.
+
+            len_numpy_dtype (any):
+                Numpy data type to use for value length storage.
         """
 
         value_len_arr = numpy.fromiter((len(value_list) for value_list in orig_value_llist), dtype=len_numpy_dtype)
@@ -70,14 +74,19 @@ class VariableLength2DListStorage:
         Fills this object with data coming from a 2D array.
         Expects "empty" positions filled with an "invalid" value.
 
-        :param orig_value_arrr: 2D numpy.ndarray
-            2D array with the values to store.
-        :param value_invalid: any
-            Value used to fill "empty" positions in `orig_value_arr`.
-        :param value_numpy_dtype: any
-            Numpy data type to use for value storage.
-        :param len_numpy_dtype: any
-            Numpy data type to use for value length storage.
+        Args:
+
+            orig_value_arrr (numpy.ndarray):
+                2D array with the values to store.
+
+            value_invalid (any):
+                Value used to fill "empty" positions in `orig_value_arr`.
+
+            value_numpy_dtype (any):
+                Numpy data type to use for value storage.
+
+            len_numpy_dtype (any):
+                Numpy data type to use for value length storage.
         """
 
         value_len_arr = numpy.sum(orig_value_arrr != value_invalid, axis=1).astype(len_numpy_dtype)
@@ -97,8 +106,10 @@ class VariableLength2DListStorage:
         Stores data from this object into a file.
         Data is saved into an .npz file.
 
-        :param filename: str
-            Filename to save the data to.
+        Args:
+
+            filename (str):
+                Filename to save the data to.
         """
 
         if not self._initialized:
@@ -119,8 +130,10 @@ class VariableLength2DListStorage:
         Loads data to this object from a file.
         Data is loaded from an .npz file.
 
-        :param filename: str
-            Filename where the data is saved to.
+        Args:
+
+            filename (str):
+                Filename where the data is saved to.
         """
 
         numpy_data = numpy.load(filename)
@@ -137,8 +150,10 @@ class VariableLength2DListStorage:
         """
         Computes the number of bytes that this object weights.
 
-        :return: int
-            Number of bytes that the object weights.
+        Returns:
+
+            int:
+                Number of bytes that the object weights.
         """
 
         if not self._initialized:
@@ -164,13 +179,18 @@ def save_storage_dict(
     Saves a (possibly nested) dict where all leaf elements are VariableLength2DListStorage objects
     into a directory.
 
-    :param storage_dict: dict
-        The dict with storage objects.
-    :param dirname: str
-        Name of the directory to save into.
+    Args:
 
-    :return: dict
-        A (possibly nested) dict with all saved storage objects.
+        storage_dict (dict):
+            The dict with storage objects.
+
+        dirname (str):
+            Name of the directory to save into.
+
+    Returns:
+
+        dict:
+            A (possibly nested) dict with all saved storage objects.
     """
     
     if not os.path.exists(dirname):
@@ -205,11 +225,15 @@ def load_storage_dict(
     Loads a (possibly nested) dict where all leaf elements are VariableLength2DListStorage objects
     from a directory.
 
-    :param dirname: str
-        Name of the directory to save into.
+    Args:
 
-    :return: dict
-        The dict with storage objects.
+        dirname (str):
+            Name of the directory to save into.
+
+    Returns:
+
+        dict:
+            The dict with storage objects.
     """
 
     storage_dict = {}

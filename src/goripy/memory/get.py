@@ -8,11 +8,15 @@ def get_obj_bytes(obj):
     Computes the number of bytes that an object weights.
     Supports basic data types, lists and dicts.
 
-    :param obj: any
-        Object to compute memory from.
+    Args:
 
-    :return: int
-        Number of bytes that the object weights.
+        obj (any):
+            Object to compute memory from.
+
+    Returns:
+    
+        int:
+            Number of bytes that the object weights.
     """
     
     num_bytes = sys.getsizeof(obj)
@@ -33,11 +37,13 @@ def get_dir_bytes(dirname):
     """
     Computes the size of a directory and all its contents.
 
-    :param dirname: str
-        Directory to scan.
+    Args:
+        dirname (str):
+            Directory to scan.
 
-    :return: int
-        Number of bytes that the directory weights.
+    Returns:
+        int:
+            Number of bytes that the directory weights.
     """
 
     num_bytes = 0

@@ -12,14 +12,18 @@ def sprint_tensor_info(
     Generates tensor information into a string.
     Used for debug purposes.
 
-    :param tensor: torch.Tensor
-        Tensor to print information from.
-    :param name: str, optional
-        Name of the tensor variable.
-        If not provided, name will not be shown.
+    Args:
+
+        tensor (torch.Tensor):
+            Tensor to print information from.
+
+        name (str, optional):
+            Name of the tensor variable. If not provided, name will not be shown.
+
+    Returns:
     
-    :return: str
-        A string with the tensor information.
+        str:
+            A string with the tensor information.
     """
 
     tensor_info_str = ""

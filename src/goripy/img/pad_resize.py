@@ -15,17 +15,24 @@ def pad_resize_image(
     """
     Pads and then resizes an image.
 
-    :param img: numpy.ndarray
-        Image (H x W x C or H x W) (numpy.uint8) to pad and resize.
-    :param size: int or list of int or tuple of int
-        The target height and width of the image.
-        If one value is provided, both height and width will be set to that value.
-    :param fill: int or list of int or tuple of int, default=255
-        RGB channel values to fill the image with padding.
-        If one value is provided, all channels will be set to that value.
+    Args:
 
-    :return: numpy.ndarray
-        Image (H x W x C or H x W) (numpy.uint8) after padding and resizing.
+        img (numpy.ndarray):
+            Image (H x W x C or H x W) (numpy.uint8) to pad and resize.
+
+        size (int or list of int or tuple of int):
+            The target height and width of the image.
+            If one value is provided, both height and width will be set to that value.
+
+        fill (int or list of int or tuple of int, optional):
+            RGB channel values to fill the image with padding.
+            If one value is provided, all channels will be set to that value.
+            Defaults to 255.
+
+    Returns:
+    
+        numpy.ndarray:
+            Image (H x W x C or H x W) (numpy.uint8) after padding and resizing.
     """
 
     # Prepare args

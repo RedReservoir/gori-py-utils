@@ -6,14 +6,19 @@ def discrete_ratio_partition_sizes(total, ratios):
     """
     Computes discrete partition sizes.
 
-    :param total: int
-        Total number of elemens.
-    :param ratios: numpy.ndarray
-        The ratios for each partition.
-        All ratios will automatically be normalized to sum up to 1.
+    Args:
+    
+        total (int):
+            Total number of elements.
 
-    :return: numpy.ndarray
-        The sizes for each partition.
+        ratios (numpy.ndarray):
+            The ratios for each partition.
+            All ratios will automatically be normalized to sum up to 1.
+
+    Returns:
+
+        numpy.ndarray:
+            The sizes for each partition.
     """
 
     norm_ratios = ratios / numpy.sum(ratios)

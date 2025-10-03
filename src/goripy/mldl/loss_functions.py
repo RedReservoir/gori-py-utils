@@ -5,15 +5,18 @@ from goripy.tensor.info import sprint_tensor_info, sprint_tensor_stats
 
 class CategoricalCrossEntropyLoss():
     """
-    Categorical Cross-Entroy Loss function for category prediction.
+    Categorical Cross-Entropy Loss function for category prediction.
 
     Tensor dimensions:
-      - B: Batch size
-      - C: Number of classes
 
-    :param cls_weights: torch.Tensor, optional
-        (C) dimensional tensor with class weights.
-        If not provided, uniform weights will be used.
+    - B: Batch size
+    - C: Number of classes
+
+    Args:
+    
+        cls_weights (torch.Tensor, optional):
+            (C) dimensional tensor with class weights.
+            If not provided, uniform weights will be used.
     """
 
     def __init__(
@@ -31,19 +34,25 @@ class CategoricalCrossEntropyLoss():
         inst_weights=None
     ):
         """
-        Computes the Categorical Cross-Entroy Loss function between predictions and ground truth.
+        Computes the Categorical Cross-Entropy Loss function between predictions and ground truth.
 
-        :param pred_logits: torch.Tensor
-            (B x C) dimensional tensor with predicted category logits.
-            Logits are features that are unnormalized with no activation function.
-        :param target_probs: torch.Tensor
-            (B x C) dimensional tensor with target one-hot encoded categories.
-        :param inst_weights: torch.Tensor, optional
-            (B x C) dimensional tensor with instance weights.
-            If not provided, uniform weights will be used.
+        Args:
 
-        :return: torch.Tensor
-            (B)-dimensional tensor with the unreduced loss values.
+            pred_logits (torch.Tensor):
+                (B x C) dimensional tensor with predicted category logits.
+                Logits are features that are unnormalized with no activation function.
+
+            target_probs (torch.Tensor):
+                (B x C) dimensional tensor with target one-hot encoded categories.
+
+            inst_weights (torch.Tensor, optional):
+                (B x C) dimensional tensor with instance weights.
+                If not provided, uniform weights will be used.
+
+        Returns:
+
+            torch.Tensor:
+                (B)-dimensional tensor with the unreduced loss values.
         """
 
         pred_probs = torch.softmax(pred_logits, dim=1)
@@ -69,27 +78,35 @@ def categorical_cross_entropy_loss(
     inst_weights=None
 ):
     """
-    Categorical Cross-Entroy Loss function for category prediction.
+    Categorical Cross-Entropy Loss function for category prediction.
     Functional version.
-    
+
     Tensor dimensions:
-      - B: Batch size
-      - C: Number of classes
 
-    :param pred_logits: torch.Tensor
-        (B x C) dimensional tensor with predicted category logits.
-        Logits are features that are unnormalized with no activation function.
-    :param target_probs: torch.Tensor
-        (B x C) dimensional tensor with target one-hot encoded categories.
-    :param cls_weights: torch.Tensor, optional
-        (C) dimensional tensor with class weights.
-        If not provided, uniform weights will be used.
-    :param inst_weights: torch.Tensor, optional
-        (B x C) dimensional tensor with instance weights.
-        If not provided, uniform weights will be used.
+    - B: Batch size
+    - C: Number of classes
 
-    :return: torch.Tensor
-        (B)-dimensional tensor with the unreduced loss values.
+    Args:
+
+        pred_logits (torch.Tensor):
+            (B x C) dimensional tensor with predicted category logits.
+            Logits are features that are unnormalized with no activation function.
+
+        target_probs (torch.Tensor):
+            (B x C) dimensional tensor with target one-hot encoded categories.
+
+        cls_weights (torch.Tensor, optional):
+            (C) dimensional tensor with class weights.
+            If not provided, uniform weights will be used.
+
+        inst_weights (torch.Tensor, optional):
+            (B x C) dimensional tensor with instance weights.
+            If not provided, uniform weights will be used.
+
+    Returns:
+
+        torch.Tensor:
+            (B)-dimensional tensor with the unreduced loss values.
     """
 
     pred_probs = torch.softmax(pred_logits, dim=1)
@@ -110,18 +127,22 @@ def categorical_cross_entropy_loss(
 
 class BinaryCrossEntropyLoss():
     """
-    Binary Cross-Entroy Loss function for multi-attribute prediction.
+    Binary Cross-Entropy Loss function for multi-attribute prediction.
 
     Tensor dimensions:
-      - B: Batch size
-      - A: Number of attributes
 
-    :param pos_attr_weights: torch.Tensor
-        (A) dimensional tensor with attribute positive weights.
-        If not provided, uniform weights will be used.
-    :param neg_attr_weights: torch.Tensor
-        (A) dimensional tensor with attribute positive weights.
-        If not provided, uniform weights will be used.
+    - B: Batch size
+    - A: Number of attributes
+
+    Args:
+
+        pos_attr_weights (torch.Tensor):
+            (A) dimensional tensor with attribute positive weights.
+            If not provided, uniform weights will be used.
+
+        neg_attr_weights (torch.Tensor):
+            (A) dimensional tensor with attribute negative weights.
+            If not provided, uniform weights will be used.
     """
 
     def __init__(
@@ -141,19 +162,25 @@ class BinaryCrossEntropyLoss():
         inst_weights=None
     ):
         """
-        Computes the Binary Cross-Entroy Loss function between predictions and ground truth.
+        Computes the Binary Cross-Entropy Loss function between predictions and ground truth.
 
-        :param pred_logits: torch.Tensor
-            (B x A) dimensional tensor with predicted attribute logits.
-            Logits are features that are unnormalized with no activation function.
-        :param target_probs: torch.Tensor
-            (B x A) dimensional tensor with target one-hot encoded attributes.
-        :param inst_weights: torch.Tensor, optional
-            (B x A) dimensional tensor with instance weights.
-            If not provided, uniform weights will be used.
+        Args:
 
-        :return: torch.Tensor
-            (B) dimensional tensor with the unreduced loss values.
+            pred_logits (torch.Tensor):
+                (B x A) dimensional tensor with predicted attribute logits.
+                Logits are features that are unnormalized with no activation function.
+
+            target_probs (torch.Tensor):
+                (B x A) dimensional tensor with target one-hot encoded attributes.
+
+            inst_weights (torch.Tensor, optional):
+                (B x A) dimensional tensor with instance weights.
+                If not provided, uniform weights will be used.
+
+        Returns:
+
+            torch.Tensor:
+                (B)-dimensional tensor with the unreduced loss values.
         """
 
         pred_probs = torch.sigmoid(pred_logits)        
@@ -185,30 +212,39 @@ def binary_cross_entropy_loss(
     inst_weights=None
 ):
     """
-    Binary Cross-Entroy Loss function for multi-attribute prediction.
+    Binary Cross-Entropy Loss function for multi-attribute prediction.
     Functional version.
 
     Tensor dimensions:
-      - B: Batch size
-      - A: Number of attributes
 
-    :param pred_logits: torch.Tensor
-        (B x A) dimensional tensor with predicted attribute logits.
-        Logits are features that are unnormalized with no activation function.
-    :param target_probs: torch.Tensor
-        (B x A) dimensional tensor with target one-hot encoded attributes.
-    :param pos_attr_weights: torch.Tensor
-        (A) dimensional tensor with attribute positive weights.
-        If not provided, uniform weights will be used.
-    :param neg_attr_weights: torch.Tensor
-        (A) dimensional tensor with attribute positive weights.
-        If not provided, uniform weights will be used.
-    :param inst_weights: torch.Tensor, optional
-        (B x A) dimensional tensor with instance weights.
-        If not provided, uniform weights will be used.
+    - B: Batch size
+    - A: Number of attributes
 
-    :return: torch.Tensor
-        (B) dimensional tensor with the unreduced loss values.
+    Args:
+
+        pred_logits (torch.Tensor):
+            (B x A) dimensional tensor with predicted attribute logits.
+            Logits are features that are unnormalized with no activation function.
+
+        target_probs (torch.Tensor):
+            (B x A) dimensional tensor with target one-hot encoded attributes.
+
+        pos_attr_weights (torch.Tensor):
+            (A) dimensional tensor with attribute positive weights.
+            If not provided, uniform weights will be used.
+
+        neg_attr_weights (torch.Tensor):
+            (A) dimensional tensor with attribute negative weights.
+            If not provided, uniform weights will be used.
+
+        inst_weights (torch.Tensor, optional):
+            (B x A) dimensional tensor with instance weights.
+            If not provided, uniform weights will be used.
+
+    Returns:
+
+        torch.Tensor:
+            (B)-dimensional tensor with the unreduced loss values.
     """
 
     pred_probs = torch.sigmoid(pred_logits)        

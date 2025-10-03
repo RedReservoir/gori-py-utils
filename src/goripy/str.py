@@ -2,13 +2,18 @@ def add_newlines(orig_str, line_len=None):
     """
     Adds newlines to a string.
 
-    :param orig_str: str
-        Original one-line string.
-    :param line_len: int, optional
-        Line length.
+    Args:
+    
+        orig_str (str):
+            Original one-line string.
 
-    :return: str
-        New multiline string.
+        line_len (int, optional):
+            Maximum line length.
+
+    Returns:
+
+        str:
+            New multiline string.
     """
 
     start_stop_idxs = list(range(0, len(orig_str), line_len))
@@ -26,15 +31,17 @@ def add_newlines_whitespace(orig_str, min_len=None, max_len=None):
     """
     Adds newlines in place of whitespaces to a string.
 
-    :param orig_str: str
-        Original one-line string.
-    :param min_len: int, optional
-        Minimum line length.
-    :param max_len: int, optional
-        Maximum line length.
+    Args:
+        orig_str (str):
+            Original one-line string.
+        min_len (int, optional):
+            Minimum line length.
+        max_len (int, optional):
+            Maximum line length.
 
-    :return: str
-        New multiline string.
+    Returns:
+        str:
+            New multiline string.
     """
 
     if min_len is None: min_len = float("inf")

@@ -12,14 +12,19 @@ def sprint_array_info(
     Generates array information into a string.
     Used for debug purposes.
 
-    :param array: numpy.ndarray
-        Tensor to print information from.
-    :param name: str, optional
-        Name of the array variable.
-        If not provided, name will not be shown.
+    Args:
     
-    :return: str
-        A string with the array information.
+        array (numpy.ndarray):
+            Array to print information from.
+
+        name (str, optional):
+            Name of the array variable.
+            If not provided, name will not be shown.
+
+    Returns:
+
+        str:
+            A string with the array information.
     """
 
     array_info_str = ""

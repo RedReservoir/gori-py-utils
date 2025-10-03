@@ -6,6 +6,8 @@ def arg_list_to_arg_arr(
     arg,
     target_len
 ):
+    """
+    """
 
     if isinstance(arg, (list, tuple)):
 

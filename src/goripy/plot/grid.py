@@ -10,24 +10,37 @@ def compute_best_2d_grid_dims(
     allow_diff_size=True
 ):
     """
-    Computes optimal number of columns and rows in a 2D plot grid. 
+    Computes optimal number of columns and rows in a 2D plot grid.
 
-    :param size: int
-        Number of plots in the 2D plot grid.
-    :param wh_ratio: float, default=1.0
-        Desired width:height ratio in the 2D plot grid.
-        Ratio expressed in terms of absolute size.
-    :param plt_w: float, default=1.0
-        Single plot width.
-    :param plt_h: float, default=1.0
-        Single plot height.
-    :param allow_diff_size: bool, default=True
-        If True, allows for results with number of plots different than `size`.
+    Args:
 
-    :return ncols: int
-        2D plot grid number of columns.
-    :return nrows: int
-        2D plot grid number of rows.
+        size (int):
+            Number of plots in the 2D plot grid.
+
+        wh_ratio (float, optional):
+            Desired width:height ratio in the 2D plot grid.
+            Ratio expressed in terms of absolute size.
+            Defaults to 1.0.
+
+        plt_w (float, optional):
+            Single plot width.
+            Defaults to 1.0.
+
+        plt_h (float, optional):
+            Single plot height.
+            Defaults to 1.0.
+
+        allow_diff_size (bool, optional):
+            If True, allows for results with number of plots different than `size`.
+            Defaults to True.
+
+    Returns:
+    
+        tuple of int
+            A tuple containing:
+            
+            - ncols: 2D plot grid number of columns.
+            - nrows: 2D plot grid number of rows.
     """
 
     # Size 1 fallback

@@ -18,26 +18,39 @@ def cast_shadow(
     Applies a shadow to an object in an image.
     Also applies a random perspective transform to the shadow beforehand.
 
-    :param img: numpy.ndarray
-        Image to apply the shadow to.
-    :param mask: numpy.ndarray
-        Boolean mask of the object in the image.
-    :param top_mask: numpy.ndarray, optional
-        Boolean mask of other objects on top of the main object.
-        Ignored if not provided.
-    :param shadow_dilate_disk_size: int, default=3
-        Shadow dilation operation disk fotprint size.
-    :param shadow_gauss_blur_size: int, default=5
-        Shadow gaussian blurring kernel size.
-    :param shadow_persp_mat: numpy.ndarray
-        Perspective matrix to use with cv2.warpPerspective.
-        It is recommended to create this matrix via cv2.getPerspectiveTransform.
-    :param shadow_alpha: float, default=0.2
-        Shadow intensity alpha parameter.
-        Must be a number in the [0, 1] interval.
+    Args:
+    
+        img (numpy.ndarray):
+            Image to apply the shadow to.
 
-    :return: numpy.ndarray
-        Image with the applied shadow.
+        mask (numpy.ndarray):
+            Boolean mask of the object in the image.
+
+        top_mask (numpy.ndarray, optional):
+            Boolean mask of other objects on top of the main object.
+            Ignored if not provided.
+
+        shadow_dilate_disk_size (int, optional):
+            Shadow dilation operation disk footprint size.
+            Defaults to 3.
+
+        shadow_gauss_blur_size (int, optional):
+            Shadow gaussian blurring kernel size.
+            Defaults to 5.
+
+        shadow_persp_mat (numpy.ndarray):
+            Perspective matrix to use with cv2.warpPerspective.
+            It is recommended to create this matrix via cv2.getPerspectiveTransform.
+
+        shadow_alpha (float, optional):
+            Shadow intensity alpha parameter.
+            Must be a number in the [0, 1] interval.
+            Defaults to 0.2.
+
+    Returns:
+
+        numpy.ndarray:
+            Image with the applied shadow.
     """
 
     # Create shadow mask, dilate and blur
@@ -84,21 +97,27 @@ def generate_persp_mat(
 
     Shearing is performed by moving the vertices further or closer to the center.
     Translation is performed by simply applying a translation operation to the vertices.
-        
-    :param mask: numpy.ndarray
-        Mask of the object to cast a shadow from.
-    :param min_shear_coef: float
-        Minimum shearing coefficient (wrt. shadow size).
-        Must be a number in the [-1, 1] interval.
-    :param max_shear_coef: float
-        Maximum shearing coefficient (wrt. shadow size).
-        Must be a number in the [-1, 1] interval.
-    :param min_trans_coef: float
-        Minimum translation coefficient (wrt. shadow size).
-        Must be a number in the [-1, 1] interval.
-    :param max_trans_coef: float
-        Maximum translation coefficient (wrt. shadow size).
-        Must be a number in the [-1, 1] interval.
+
+    Args:
+
+        mask (numpy.ndarray):
+            Mask of the object to cast a shadow from.
+
+        min_shear_coef (float):
+            Minimum shearing coefficient (wrt. shadow size).
+            Must be a number in the [-1, 1] interval.
+
+        max_shear_coef (float):
+            Maximum shearing coefficient (wrt. shadow size).
+            Must be a number in the [-1, 1] interval.
+
+        min_trans_coef (float):
+            Minimum translation coefficient (wrt. shadow size).
+            Must be a number in the [-1, 1] interval.
+
+        max_trans_coef (float):
+            Maximum translation coefficient (wrt. shadow size).
+            Must be a number in the [-1, 1] interval.
     """
 
     # Compute mask dimensions

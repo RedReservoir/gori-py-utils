@@ -2,14 +2,20 @@ def sprint_fancy_time_diff(time_diff, high_unit="hours"):
     """
     Generates a fancy string representation of a time difference.
 
-    :param time_diff: float
-        Time difference, in seconds.
-    :param high_unit: str, default="hours"
-        Highest unit to show in the string representation.
-        Can be "hours", "minutes" or "seconds"
+    Args:
 
-    :return: str
-        Fancy string representation of the time difference.
+        time_diff (float):
+            Time difference, in seconds.
+
+        high_unit (str, optional):
+            Highest unit to show in the string representation.
+            Can be "hours", "minutes", or "seconds".
+            Defaults to "hours".
+
+    Returns:
+    
+        str:
+            Fancy string representation of the time difference.
     """
 
     if high_unit not in ["hours", "minutes", "seconds"]:

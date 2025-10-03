@@ -15,23 +15,26 @@ def read_mask_from_xml_item(
     """
     Reads a segmentation mask from a CVAT format annotation file.
     The following fields of `mask_xml_item` are read:
-      - `rle`
-      - `top`
-      - `left`
-      - `height`
-      - `width`
 
-    :param mask_xml_item: xml.etree.ElementTree.ElementTree
-        Target `<mask>` XML node to read the mask from.
-    :param img_h: int
-        Original image height.
-        Can be found in the parent `<image>` XML node.
-    :param img_w: int
-        Original image width.
-        Can be found in the parent `<image>` XML node.
-    
-    :return: numpy.ndarray
-        A 2D boolean numpy array with the mask.
+    - `rle`
+    - `top`
+    - `left`
+    - `height`
+    - `width`
+
+    Args:
+        mask_xml_item (xml.etree.ElementTree.ElementTree):
+            Target `<mask>` XML node to read the mask from.
+        img_h (int):
+            Original image height.
+            Can be found in the parent `<image>` XML node.
+        img_w (int):
+            Original image width.
+            Can be found in the parent `<image>` XML node.
+
+    Returns:
+        numpy.ndarray:
+            A 2D boolean numpy array with the mask.
     """
 
     mask_rle_arr = numpy.fromiter(map(int, mask_xml_item.get("rle").split(", ")), dtype=int)
@@ -57,16 +60,18 @@ def write_mask_to_xml_item(
     """
     Writes a segmentation mask to a CVAT format annotation file.
     The following fields of `mask_xml_item` are modified:
-      - `rle`
-      - `top`
-      - `left`
-      - `height`
-      - `width`
 
-    :param mask_xml_item: xml.etree.ElementTree.ElementTree
-        Target `<mask>` XML node to write the mask to.
-    :param mask: numpy.ndarray
-        A 2D boolean numpy array with the mask.
+    - `rle`
+    - `top`
+    - `left`
+    - `height`
+    - `width`
+
+    Args:
+        mask_xml_item (xml.etree.ElementTree.ElementTree):
+            Target `<mask>` XML node to write the mask to.
+        mask (numpy.ndarray):
+            A 2D boolean numpy array with the mask.
     """
 
     mask = mask.copy()

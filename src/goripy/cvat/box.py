@@ -19,31 +19,30 @@ def compute_box_coords(
     """
     Generates CVAT box coordinates for a 2D image grid plot.
 
-    :param num_cols: int
-        Number of columns in the plot.
-    :param num_rows: int
-        Number of rows in the plot.
+    Args:
+        num_cols (int):
+            Number of columns in the plot.
+        num_rows (int):
+            Number of rows in the plot.
+        plot_size (tuple of int):
+            Size of the plot in pixels (height, width).
+        limits (tuple of int):
+            Outer limits (top, left, bot, right).
+        img_size (tuple of int):
+            Size of the plot images (height, width).
+        sep_size (tuple of int):
+            Size of the separation between plot images (height, width).
+        box_h (int):
+            Height of boxes in CVAT.
 
-    :param plot_size: 2-tuple of int
-        Size of the plot in pixels (height, width).
-
-    :param limits: 4-tuple of int
-        Outer limits (top, left, bot, right).
-    :param img_size: 2-tuple of int
-        Size of the plot images (height, width).
-    :param sep_size: 2-tuple of int
-        Size of the separation between plot images (height, width).
-    :param box_h: int
-        Height of boxes in CVAT.
-
-    :return ytl_arr: numpy.ndarray
-        Array with all ytl positions of boxes.
-    :return ybr_arr: numpy.ndarray
-        Array with all ybr positions of boxes.
-    :return xtl_arr: numpy.ndarray
-        Array with all xtl positions of boxes.
-    :return xbr_arr: numpy.ndarray
-        Array with all xbr positions of boxes.
+    Returns:
+        tuple of numpy.ndarray
+            A tuple containing:
+            
+            - ytl_arr: Array with all ytl positions of boxes.
+            - ybr_arr: Array with all ybr positions of boxes.
+            - xtl_arr: Array with all xtl positions of boxes.
+            - xbr_arr: Array with all xbr positions of boxes.
     """
 
     plot_h, plot_w = plot_size
@@ -96,16 +95,18 @@ def get_box_ord_idxs(
     """
     Computes ordered <box> XML node indices from a 2D grid based on box centers.
 
-    :param num_cols: int
-        Number of columns formed by the boxes in CVAT.
-    :param num_rows: int
-        Number of rows formed by the boxes in CVAT.
-    :param box_xml_item_list: list xml.etree.ElementTree.ElementTree
-        List of `<box>` XML nodes to order based on box position.
-    
-    :return: numpy.ndarray
-        A 1D numpy array with the rank of each box.
-        Iterate the list of `<box>` XML nodes using this array of indices.
+    Args:
+        num_cols (int):
+            Number of columns formed by the boxes in CVAT.
+        num_rows (int):
+            Number of rows formed by the boxes in CVAT.
+        box_xml_item_list (list of xml.etree.ElementTree.ElementTree):
+            List of `<box>` XML nodes to order based on box position.
+
+    Returns:
+        numpy.ndarray:
+            A 1D numpy array with the rank of each box.
+            Iterate the list of `<box>` XML nodes using this array of indices.
     """
 
     box_cen_arr = numpy.empty(shape=(len(box_xml_item_list), 2), dtype=float)

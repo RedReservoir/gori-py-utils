@@ -5,15 +5,18 @@ import torch
 def normalize_image_tensor(img):
     """
     Transforms a C x W x H float tensor with values rescaled into the [0, 1] interval
-        (per channel).
+    (per channel).
 
-    :param img: torch.Tensor
-        Original image tensor.
-    
-    :return: torch.Tensor
-        Normalized image tensor.
+    Args:
+
+        img (torch.Tensor):
+            Original image tensor.
+
+    Returns:
+
+        torch.Tensor:
+            Normalized image tensor.
     """
-
 
     img_flt = img.flatten(start_dim=1, end_dim=2)
 
@@ -28,13 +31,16 @@ def standardize_image_tensor(img):
     """
     Transforms a C x W x H float tensor with values standardized (per channel).
 
-    :param img: torch.Tensor
-        Original image tensor.
-    
-    :return: torch.Tensor
-        Standardized image tensor.
-    """
+    Args:
 
+        img (torch.Tensor):
+            Original image tensor.
+
+    Returns:
+    
+        torch.Tensor:
+            Standardized image tensor.
+    """
 
     img_flt = img.flatten(start_dim=1, end_dim=2)
 

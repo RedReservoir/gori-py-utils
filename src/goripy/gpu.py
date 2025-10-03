@@ -7,6 +7,9 @@ import goripy.memory.info
 def sprint_device_info(
     device
 ):
+    """
+    TODO
+    """
 
     device_id = torch.cuda._get_nvml_device_index(device)
     device_name = torch.cuda.get_device_name(device)

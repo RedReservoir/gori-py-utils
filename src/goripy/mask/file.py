@@ -8,10 +8,13 @@ def save_mask_to_rle_file(mask, rle_filename):
     """
     Saves a binary mask into an RLE file.
 
-    :param mask: numpy.ndarray
-        2D boolean numpy array (H x W).
-    :param rle_filename: str
-        Filename to save the mask to.
+    Args:
+
+        mask (numpy.ndarray):
+            2D boolean numpy array (H x W).
+
+        rle_filename (str):
+            Filename to save the mask to.
     """
 
     numpy.savez(
@@ -25,8 +28,10 @@ def load_mask_from_rle_file(rle_filename):
     """
     Loads a binary mask from an RLE file.
 
-    :param rle_filename: str
-        Filename to load the mask from.
+    Args:
+    
+        rle_filename (str):
+            Filename to load the mask from.
     """
 
     mask_rle_file = numpy.load(rle_filename)
