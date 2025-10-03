@@ -9,10 +9,13 @@ def load_module(
     dont_write_bytecode=True
 ):
     """
-    Loads a Python module without saving it to cache, so it can be deleted later.
+    Loads a Python module without saving it to sys.modules, so it can be deleted later.
 
     :param module_path: str
         Path to the Python module to load.
+    :param sys_reg_module_name: str, optional
+        Name to register the module under in `sys.modules`.
+        If not provided, the module is not registered to `sys.modules`.
     :param dont_write_bytecode: bool, default=True
         If True, does not write `__pycache__` bytecode when loading the module.
     

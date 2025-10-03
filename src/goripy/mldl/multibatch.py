@@ -65,7 +65,7 @@ def compute_multibatches_dataset(
 
 
 
-def compute_multibatches_dataloder(
+def compute_multibatches_dataloader(
     dataloader_len_arr,
     dataloader_batch_size_arr,
     dataset_point_size_arr,

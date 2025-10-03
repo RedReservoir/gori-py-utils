@@ -1,5 +1,6 @@
 import torch
 
+from goripy.tensor.info import sprint_tensor_info, sprint_tensor_stats
 
 
 class CategoricalCrossEntropyLoss():
