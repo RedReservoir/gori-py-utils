@@ -18,7 +18,9 @@ def compute_box_coords(
 ):
     """
     Generates CVAT box coordinates for a 2D image grid plot.
-
+    The `limits`, `img_size`, `sep_size` and `box_h` args are not expected in pixel-perfect
+    precision. Instead, they will be used as relative sizes.
+    
     Args:
         num_cols (int):
             Number of columns in the plot.
@@ -26,13 +28,14 @@ def compute_box_coords(
             Number of rows in the plot.
         plot_size (tuple of int):
             Size of the plot in pixels (height, width).
-        limits (tuple of int):
+
+        limits (tuple of float):
             Outer limits (top, left, bot, right).
-        img_size (tuple of int):
+        img_size (tuple of float):
             Size of the plot images (height, width).
-        sep_size (tuple of int):
+        sep_size (tuple of float):
             Size of the separation between plot images (height, width).
-        box_h (int):
+        box_h (float):
             Height of boxes in CVAT.
 
     Returns:

@@ -6,7 +6,7 @@ import goripy.mask.rle
 
 def save_mask_to_rle_file(mask, rle_filename):
     """
-    Saves a binary mask into an RLE file.
+    Saves a binary mask into an RLE file (in `.npz` format).
 
     Args:
 
@@ -26,7 +26,7 @@ def save_mask_to_rle_file(mask, rle_filename):
 
 def load_mask_from_rle_file(rle_filename):
     """
-    Loads a binary mask from an RLE file.
+    Loads a binary mask from an RLE file (in `.npz` format).
 
     Args:
     
