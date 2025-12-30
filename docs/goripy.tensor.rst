@@ -4,14 +4,6 @@ goripy.tensor package
 Submodules
 ----------
 
-goripy.tensor.img\_stats module
--------------------------------
-
-.. automodule:: goripy.tensor.img_stats
-   :members:
-   :show-inheritance:
-   :undoc-members:
-
 goripy.tensor.info module
 -------------------------
 

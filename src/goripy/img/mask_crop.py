@@ -7,8 +7,10 @@ import goripy.args
 
 class SquareMaskCropper:
     """
-    Implements cropping of images based on a reference mask.
-    Implementation for square crops with padding.
+    Crops arrays based on a reference mask.
+
+    To fit this object to a particular mask, call the `fit` method.
+    Later, to crop other arrays, call the `crop` method.
     """
 
     def __init__(
@@ -25,15 +27,16 @@ class SquareMaskCropper:
         min_size=128,
     ):
         """
-        Fits this object using a reference mask, to later crop other images and masks.
+        Fits this object using a reference mask, to later crop other arrays.
 
         Args:
         
             mask (numpy.ndarray):
-                2D numpy array with `bool` dtype to use as reference for cropping.
+                Mask to use as reference for cropping.
+                Must have shape (H x W) and `bool` dtype.
 
             border_ratio (float, optional):
-                Percentage of border wrt. to the crop contents.
+                Percentage of border with respect to the crop contents.
                 Must be a float in the [0, 1) interval.
                 Defaults to 0.0.
 
@@ -100,42 +103,62 @@ class SquareMaskCropper:
 
     def crop(
         self,
-        img,
-        bkg=0
+        arr,
+        bkg_value=0
     ):
         """
-        Crops an image.
+        Crops an array.
 
         Args:
 
-            img (numpy.ndarray):
-                Image to crop with the mask.
+            arr (numpy.ndarray):
+                Numpy array to crop.
+                Must have shape (H x W) or (H x W x C).
 
-            bkg (any, optional):
-                Values to set as background.
+            bkg_value (any, optional):
+                Values to set as background outside of the cropping area.
                 Defaults to 0.
 
         Returns:
 
             numpy.ndarray:
-                The cropped image.
+                The cropped array.
         """
 
         if not self._is_fit:
-            raise ValueError("Cannot call SquareMaskCropper.crop() before calling SquareMaskCropper.fit()")
+            raise ValueError("Cannot call crop method before calling fit method")
 
-        bkg_arr = goripy.args.arg_list_to_arg_arr(bkg, 1 if len(img.shape) == 2 else img.shape[2]).astype(img.dtype)
+        bkg_value_size = 1 if len(arr.shape) == 2 else arr.shape[2]
+        bkg_value = goripy.args.arg_list_to_arg_arr(
+            bkg_value, bkg_value_size
+        ).astype(arr.dtype)
 
-        if len(img.shape) == 2: img_crop = numpy.empty(shape=(self._new_size, self._new_size), dtype=img.dtype)
-        else: img_crop = numpy.empty(shape=(self._new_size, self._new_size, img.shape[2]), dtype=img.dtype)
+        # Create crop array
+
+        if len(arr.shape) == 2:
             
-        img_crop[self._new_copy_y0:self._new_copy_y1, self._new_copy_x0:self._new_copy_x1] =\
-            img[self._orig_copy_y0:self._orig_copy_y1, self._orig_copy_x0:self._orig_copy_x1]
+            crop_arr = numpy.empty(
+                shape=(self._new_size, self._new_size),
+                dtype=arr.dtype
+            )
 
-        img_crop[:self._new_copy_y0, :] = bkg_arr
-        img_crop[self._new_copy_y1:, :] = bkg_arr
-        img_crop[:, :self._new_copy_x0] = bkg_arr
-        img_crop[:, self._new_copy_x1:] = bkg_arr
+        else:
 
-        return img_crop
-        
+            crop_arr = numpy.empty(
+                shape=(self._new_size, self._new_size, arr.shape[2]),
+                dtype=arr.dtype
+            )
+            
+        # Copy cropped area
+
+        crop_arr[self._new_copy_y0:self._new_copy_y1, self._new_copy_x0:self._new_copy_x1] =\
+            arr[self._orig_copy_y0:self._orig_copy_y1, self._orig_copy_x0:self._orig_copy_x1]
+
+        # Apply background to area outside crop and border
+
+        crop_arr[:self._new_copy_y0, :] = bkg_value
+        crop_arr[self._new_copy_y1:, :] = bkg_value
+        crop_arr[:, :self._new_copy_x0] = bkg_value
+        crop_arr[:, self._new_copy_x1:] = bkg_value
+
+        return crop_arr

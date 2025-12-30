@@ -29,6 +29,7 @@ def show_imgs(
     img_list,
     title_mode=ShowImgsTitleMode.NO_TITLE,
     title_list=None,
+    title_size=10,
     suptitle=None,
     grid_mode=ShowImgsGridMode.ONE_ROW,
     num_rows=1,
@@ -58,6 +59,10 @@ def show_imgs(
 
         title_list (list of str, optional):
             Titles to show on top of images.
+            Sometimes ignored or overwritten depending on the title_mode argument.
+
+        title_size (int, optional):
+            Title size on top of images. Defaults to 10.
             Sometimes ignored or overwritten depending on the title_mode argument.
 
         suptitle (str, optional):
@@ -105,6 +110,11 @@ def show_imgs(
             Dots per inch in the plot image.
             Ignored if the plot_filename argument is not provided.
             Defaults to 100.
+    
+    Returns
+    
+        dict
+            Information about the generated plot.
     """
 
     # Title modes
@@ -167,7 +177,7 @@ def show_imgs(
 
     for ax, img, title in zip(axs, img_list, title_list):
         ax.imshow(img)
-        ax.set_title(title)
+        ax.set_title(title, fontsize=title_size)
         if not img_ticks:
             ax.set_xticks([])
             ax.set_yticks([])
@@ -178,9 +188,18 @@ def show_imgs(
     if suptitle is not None:
         matplotlib.pyplot.suptitle(suptitle)
 
+    matplotlib.pyplot.tight_layout()
+
     if plot_filename is None:
-        matplotlib.pyplot.tight_layout()
         matplotlib.pyplot.show()
     else:
         matplotlib.pyplot.savefig(plot_filename, bbox_inches="tight", dpi=dpi)
         matplotlib.pyplot.close()
+
+    # Return plot data
+
+    return {
+        "num_plots": num_plots,
+        "num_cols": num_cols,
+        "num_rows": num_rows
+    }

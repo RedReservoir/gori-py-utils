@@ -4,6 +4,14 @@ goripy.mldl package
 Submodules
 ----------
 
+goripy.mldl.conf\_metrics module
+--------------------------------
+
+.. automodule:: goripy.mldl.conf_metrics
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
 goripy.mldl.loss\_functions module
 ----------------------------------
 

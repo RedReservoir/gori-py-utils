@@ -1,6 +1,8 @@
 import os
 import sys
 
+import numpy
+
 
 
 def get_obj_bytes(obj):
@@ -18,18 +20,24 @@ def get_obj_bytes(obj):
         int:
             Number of bytes that the object weights.
     """
-    
-    num_bytes = sys.getsizeof(obj)
 
-    if type(obj) is list:
+    if hasattr(obj, "get_num_bytes"):
+        obj_num_bytes = obj.get_num_bytes()
+    elif type(obj) is numpy.ndarray:
+        obj_num_bytes = obj.nbytes
+    elif type(obj) is list:
+        obj_num_bytes = sys.getsizeof(obj)
         for el in obj:
-            num_bytes += get_obj_bytes(el)
-    if type(obj) is dict:
+            obj_num_bytes += get_obj_bytes(el)
+    elif type(obj) is dict:
+        obj_num_bytes = sys.getsizeof(obj)
         for key, val in obj.items():
-            num_bytes += get_obj_bytes(key)
-            num_bytes += get_obj_bytes(val)
+            obj_num_bytes += get_obj_bytes(key)
+            obj_num_bytes += get_obj_bytes(val)
+    else:
+        obj_num_bytes = sys.getsizeof(obj)
 
-    return num_bytes
+    return obj_num_bytes
 
 
 
@@ -46,14 +54,14 @@ def get_dir_bytes(dirname):
             Number of bytes that the directory weights.
     """
 
-    num_bytes = 0
+    dir_num_bytes = 0
 
     for subname in os.listdir(dirname):
 
         full_subname = os.path.join(dirname, subname)
-        num_bytes += os.path.getsize(full_subname)
+        dir_num_bytes += os.path.getsize(full_subname)
 
         if os.path.isdir(full_subname):
-            num_bytes += get_dir_bytes(full_subname)
+            dir_num_bytes += get_dir_bytes(full_subname)
 
-    return num_bytes
+    return dir_num_bytes

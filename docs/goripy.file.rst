@@ -12,14 +12,6 @@ goripy.file.json module
    :show-inheritance:
    :undoc-members:
 
-goripy.file.mask module
------------------------
-
-.. automodule:: goripy.file.mask
-   :members:
-   :show-inheritance:
-   :undoc-members:
-
 goripy.file.xml module
 ----------------------
 

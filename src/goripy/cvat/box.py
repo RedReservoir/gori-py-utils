@@ -10,7 +10,8 @@ import sklearn.cluster
 def compute_box_coords(
     num_cols,
     num_rows,
-    plot_size,
+    plot_h,
+    plot_w,
     limits,
     img_size,
     sep_size,
@@ -26,8 +27,10 @@ def compute_box_coords(
             Number of columns in the plot.
         num_rows (int):
             Number of rows in the plot.
-        plot_size (tuple of int):
-            Size of the plot in pixels (height, width).
+        plot_h (int):
+            Height of the plot image in pixels.
+        plot_w (int):
+            Width of the plot image in pixels.
 
         limits (tuple of float):
             Outer limits (top, left, bot, right).
@@ -48,7 +51,6 @@ def compute_box_coords(
             - xbr_arr: Array with all xbr positions of boxes.
     """
 
-    plot_h, plot_w = plot_size
     top, left, bot, right = limits
     img_h, img_w = img_size
     sep_h, sep_w = sep_size

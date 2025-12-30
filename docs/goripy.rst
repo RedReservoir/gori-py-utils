@@ -61,14 +61,6 @@ goripy.pickle module
    :show-inheritance:
    :undoc-members:
 
-goripy.pymodule module
-----------------------
-
-.. automodule:: goripy.pymodule
-   :members:
-   :show-inheritance:
-   :undoc-members:
-
 goripy.str module
 -----------------
 
