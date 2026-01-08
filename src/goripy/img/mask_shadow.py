@@ -265,7 +265,7 @@ def cast_shadow(
     
     shd_bw_img = cv2.erode(
         shd_bw_img,
-        kernel=skimage.morphology.footprint_rectangle((round_ker_size * 2, round_ker_size * 2))
+        kernel=numpy.ones(shape=(round_ker_size * 2, round_ker_size * 2), dtype=numpy.uint8)
     )
     
     # Use gaussian blur to control shadow intensity
