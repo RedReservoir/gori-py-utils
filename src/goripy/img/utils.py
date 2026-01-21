@@ -1,9 +1,6 @@
 import numpy
 import skimage
 
-import albumentations
-import cv2
-
 import goripy.args
 
 
