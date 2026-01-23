@@ -9,20 +9,34 @@ def mask_to_rle(mask):
     Args:
 
         mask (numpy.ndarray):
-            2D boolean numpy array (H x W).
+            The mask to encode.
+            Shape: (H x W). Dtype: bool.
 
     Returns:
 
         list of int:
-            RLE of the binary mask.
+            The encoded RLE as an array.
+            Dtype: uint32.
     """
 
     mask_flat = mask.ravel(order="F")
 
-    rle = numpy.argwhere(numpy.logical_xor(mask_flat[1:], mask_flat[:-1])).flatten()
-    rle = numpy.concatenate([rle + 1, [mask_flat.shape[0]]])
+    rle = numpy.flatnonzero(
+        numpy.logical_xor(mask_flat[1:], mask_flat[:-1])
+    ).astype(numpy.uint32)
+    
+    rle = numpy.concatenate([
+        rle + 1,
+        numpy.asarray([mask_flat.shape[0]], dtype=numpy.uint32)
+    ])
+    
     rle[1:] -= rle[:-1]
-    if mask_flat[0].item() == 1: rle = numpy.concatenate([[0], rle])
+
+    if mask_flat[0].item() == 1:
+        rle = numpy.concatenate([
+            numpy.asarray([0], dtype=numpy.uint32),
+            rle
+        ])
     
     return rle
 
@@ -34,16 +48,18 @@ def rle_to_mask(rle, shape):
 
     Args:
     
-        rle (list of int):
-            RLE of the binary mask.
+        rle (numpy.ndarray):
+            The encoded RLE as an array.
+            Dtype: uint32.
 
-        shape (tuple of int):
+        shape (2-tuple of int):
             The original dimensions of the mask (H x W).
 
     Returns:
 
         numpy.ndarray:
-            2D boolean numpy array (H x W).
+            The decoded mask.
+            Shape: (H x W). Dtype: bool.
     """
 
     mask_flat = numpy.zeros(shape[0] * shape[1], dtype=bool)
