@@ -42,20 +42,20 @@ class RandomBorderFiller:
     ):
 
         self._top_brs = goripy.args.arg_list_to_arg_arr(
-            top_brs, 2
-        ).astype(float).tolist()
+            top_brs, 2, float
+        ).tolist()
 
         self._bot_brs = goripy.args.arg_list_to_arg_arr(
-            bot_brs, 2
-        ).astype(float).tolist()
+            bot_brs, 2, float
+        ).tolist()
 
         self._left_brs = goripy.args.arg_list_to_arg_arr(
-            left_brs, 2
-        ).astype(float).tolist()
+            left_brs, 2, float
+        ).tolist()
 
         self._right_brs = goripy.args.arg_list_to_arg_arr(
-            right_brs, 2
-        ).astype(float).tolist()
+            right_brs, 2, float
+        ).tolist()
 
         self._fill_border = fill_border
         self._fill_value = fill_value
@@ -151,8 +151,8 @@ def fill_border_abs(
 
     fill_value_size = 1 if len(arr.shape) == 2 else arr.shape[2]
     fill_value = goripy.args.arg_list_to_arg_arr(
-        fill_value, fill_value_size
-    ).astype(arr.dtype)
+        fill_value, fill_value_size, arr.dtype
+    )
 
     arr_h = arr.shape[0]
     arr_w = arr.shape[1]
@@ -213,8 +213,8 @@ def fill_border_rel(
 
     fill_value_size = 1 if len(arr.shape) == 2 else arr.shape[2]
     fill_value = goripy.args.arg_list_to_arg_arr(
-        fill_value, fill_value_size
-    ).astype(arr.dtype)
+        fill_value, fill_value_size, arr.dtype
+    )
 
     arr_h = arr.shape[0]
     arr_w = arr.shape[1]

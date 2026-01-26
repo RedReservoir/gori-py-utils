@@ -130,8 +130,8 @@ class SquareMaskCropper:
 
         bkg_value_size = 1 if len(arr.shape) == 2 else arr.shape[2]
         bkg_value = goripy.args.arg_list_to_arg_arr(
-            bkg_value, bkg_value_size
-        ).astype(arr.dtype)
+            bkg_value, bkg_value_size, arr.dtype
+        )
 
         # Create crop array
 

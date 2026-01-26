@@ -57,24 +57,24 @@ class RandomMaskShadower:
     ):
         
         self._shd_round_factors = goripy.args.arg_list_to_arg_arr(
-            shd_round_factors, 2
-        ).astype(float).tolist()
+            shd_round_factors, 2, float
+        ).tolist()
 
         self._shd_blur_sizes = goripy.args.arg_list_to_arg_arr(
-            shd_blur_sizes, 2
-        ).astype(int).tolist()
+            shd_blur_sizes, 2, int
+        ).tolist()
 
         self._shd_alphas = goripy.args.arg_list_to_arg_arr(
-            shd_alphas, 2
-        ).astype(float).tolist()
+            shd_alphas, 2, float
+        ).tolist()
         
         self._shd_shear_coefs = goripy.args.arg_list_to_arg_arr(
-            shd_shear_coefs, 2
-        ).astype(float).tolist()
+            shd_shear_coefs, 2, float
+        ).tolist()
         
         self._shd_trans_coefs = goripy.args.arg_list_to_arg_arr(
-            shd_trans_coefs, 2
-        ).astype(float).tolist()
+            shd_trans_coefs, 2, float
+        ).tolist()
 
         self.randomize()
 
@@ -339,12 +339,12 @@ def generate_random_shd_persp_mat(
     # Prepare args
 
     shd_shear_coefs = goripy.args.arg_list_to_arg_arr(
-        shd_shear_coefs, 2
-    ).astype(float).tolist()
+        shd_shear_coefs, 2, float
+    ).tolist()
     
     shd_trans_coefs = goripy.args.arg_list_to_arg_arr(
-        shd_trans_coefs, 2
-    ).astype(float).tolist()
+        shd_trans_coefs, 2, float
+    ).tolist()
 
     # Compute mask dimensions
 
