@@ -89,81 +89,32 @@ def compute_target_img_size_min(
 
 
 
-def pad_fill_img(
-    img,
-    size,
-    fill_value=0
+def compute_img_pad_sizes(
+    curr_size,
+    target_size
 ):
-    """
-    Pads an image around the borders to a desired size.
-    Can handle images of shape (H x W) or (H x W x C).
-    
-    Args:
 
-        img (numpy.ndarray):
-            Original image.
+    curr_h, curr_w = curr_size
+    tgt_h, tgt_w = target_size
 
-        size (2-tuple of int or int):
-            The desired height and width of the padded image.
-            If one value is provided, both height and width will be set to that value.
+    if curr_h > tgt_h :
+        raise ValueError("Current height exceeds target height")
 
-        fill_value (any, default=0):
-            Value(s) to fill the padding with. Must be compatible with the image data type.
+    if curr_w > tgt_w :
+        raise ValueError("Current width exceeds target width")
 
-    Returns:
-    
-        numpy.ndarray:
-            New image with padding.
-    """
+    pad_top = (tgt_h - curr_h) // 2
+    pad_bottom = (tgt_h - curr_h) - pad_top
 
-    # Check image shape
+    pad_left = (tgt_w - curr_w) // 2
+    pad_right = (tgt_w - curr_w) - pad_left
 
-    if (len(img.shape) != 2) and (len(img.shape) != 3):
-        raise ValueError("Unexpected image shape: {:s}".format(str(img.shape)))
-
-    # Prepare args
-
-    size = goripy.args.arg_list_to_arg_arr(size, 2).astype(numpy.uint16).tolist()
-
-    fill_value = goripy.args.arg_list_to_arg_arr(
-        fill_value, 1 if len(img.shape) == 2 else img.shape[2]
-    ).astype(img.dtype)
-
-    # Create padded image with fill value
-
-    pad_img_shape = size if len(img.shape) == 2 else (size[0], size[1], img.shape[2])
-    pad_img = numpy.empty(shape=pad_img_shape, dtype=img.dtype)
-
-    # Fill padded image
-
-    img_h, img_w = img.shape[0], img.shape[1]
-    pad_img_h, pad_img_w = size
-
-    copy_y0 = (pad_img_h - img_h) // 2
-    copy_y1 = copy_y0 + img_h
-
-    copy_x0 = (pad_img_w - img_w) // 2
-    copy_x1 = copy_x0 + img_w
-
-    ## Copy original image
-
-    pad_img[copy_y0:copy_y1, copy_x0:copy_x1] = img[:, :]
-
-    ## Fill border cornets
-
-    pad_img[0:copy_y0, 0:copy_x0] = fill_value
-    pad_img[0:copy_y0, copy_x1:pad_img_w] = fill_value
-    pad_img[copy_y1:pad_img_h, 0:copy_x0] = fill_value
-    pad_img[copy_y1:pad_img_h, copy_x1:pad_img_w] = fill_value
-
-    ## Fill border rectangles
-
-    pad_img[0:copy_y0, copy_x0:copy_x1] = fill_value
-    pad_img[copy_y1:pad_img_h, copy_x0:copy_x1] = fill_value
-    pad_img[copy_y0:copy_y1, 0:copy_x0] = fill_value
-    pad_img[copy_y0:copy_y1, copy_x1:pad_img_w] = fill_value
-
-    return pad_img
+    return (
+        pad_top,
+        pad_bottom,
+        pad_left,
+        pad_right
+    )
 
 
 
@@ -216,3 +167,90 @@ def img_to_rgb(
         return img
 
     raise ValueError("Unexpected image shape: {:s}".format(str(img.shape)))
+
+
+
+########
+
+
+
+def pad_fill_img(
+    img,
+    size,
+    fill_value=0
+):
+    """
+    Pads an image around the borders to a desired size.
+    Can handle images of shape (H x W) or (H x W x C).
+    
+    Args:
+
+        img (numpy.ndarray):
+            Original image.
+
+        size (2-tuple of int or int):
+            The desired height and width of the padded image.
+            If one value is provided, both height and width will be set to that value.
+
+        fill_value (any, default=0):
+            Value(s) to fill the padding with. Must be compatible with the image data type.
+
+    Returns:
+    
+        numpy.ndarray:
+            New image with padding.
+    """
+
+    # Check image shape
+
+    if (len(img.shape) != 2) and (len(img.shape) != 3):
+        raise ValueError("Unexpected image shape: {:s}".format(str(img.shape)))
+
+    # Prepare args
+
+    size = goripy.args.arg_list_to_arg_arr(
+        size, 2, numpy.uint16
+    ).tolist()
+
+    fill_value = goripy.args.arg_list_to_arg_arr(
+        fill_value, 1 if len(img.shape) == 2 else img.shape[2], img.dtype
+    )
+
+    # Create padded image with fill value
+
+    pad_img_shape = size if len(img.shape) == 2 else (size[0], size[1], img.shape[2])
+    pad_img = numpy.empty(shape=pad_img_shape, dtype=img.dtype)
+
+    # Fill padded image
+
+    img_h, img_w = img.shape[0], img.shape[1]
+    pad_img_h, pad_img_w = size
+
+    copy_y0 = (pad_img_h - img_h) // 2
+    copy_y1 = copy_y0 + img_h
+
+    copy_x0 = (pad_img_w - img_w) // 2
+    copy_x1 = copy_x0 + img_w
+
+    ## Copy original image
+
+    pad_img[copy_y0:copy_y1, copy_x0:copy_x1] = img[:, :]
+
+    ## Fill border cornets
+
+    pad_img[0:copy_y0, 0:copy_x0] = fill_value
+    pad_img[0:copy_y0, copy_x1:pad_img_w] = fill_value
+    pad_img[copy_y1:pad_img_h, 0:copy_x0] = fill_value
+    pad_img[copy_y1:pad_img_h, copy_x1:pad_img_w] = fill_value
+
+    ## Fill border rectangles
+
+    pad_img[0:copy_y0, copy_x0:copy_x1] = fill_value
+    pad_img[copy_y1:pad_img_h, copy_x0:copy_x1] = fill_value
+    pad_img[copy_y0:copy_y1, 0:copy_x0] = fill_value
+    pad_img[copy_y0:copy_y1, copy_x1:pad_img_w] = fill_value
+
+    return pad_img
+
+
+
