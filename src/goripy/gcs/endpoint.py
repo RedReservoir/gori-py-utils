@@ -1,8 +1,19 @@
 import os
+import time
+import datetime
+import json
 
 
 
 def view_endpoint_deployed_models(endpoint):
+    """
+    Prints detailed information about models deployed to an Endpoint.
+    
+    Args:
+
+        endpoint (google.cloud.aiplatform.Endpoint):
+            Endpoint hosting the model(s).
+    """
 
     deployed_model_list = endpoint.list_models()
 
@@ -72,3 +83,66 @@ def view_endpoint_deployed_models(endpoint):
             column_fmt_str_dict[column_name].format(column_data_list_dict[column_name][model_idx])
             for column_name in column_name_list
         ]))
+
+
+
+def wait_until_model_is_ready(
+    endpoint,
+    retry_every=15,
+    timeout=20 * 60,
+    verbose=True
+):
+    """
+    Sends pings to an Endpoint until the hosted model(s) is ready to serve inference. Useful for
+    waiting through the scaleup period of autoscale-to-zero models.
+    
+    Args:
+
+        endpoint (google.cloud.aiplatform.Endpoint):
+            Endpoint hosting the model(s).
+        
+        retry_every (float):
+            Time (seconds) to wait between pings sent to the endpoint.
+            Default: 15 s.
+        
+        timeout (float):
+            Time (seconds) to wait until a timeout is issued if the model does not become ready.
+            If `None` is provided, no timeout will be issued.
+            Default: 20 min.
+
+        verbose (bool):
+            If `True`, ping response times and status code will be printed to the terminal.
+            Default: `True`.
+
+    Returns:
+
+        requests.models.Response or None:
+            When any ping invocation responds with a status code other than 429, the response
+            object will be returned.
+            If a timeout is issued, `None` will be returned instead.
+    """
+
+    init_time = time.time()
+
+    while True:
+
+        resp = endpoint.invoke(
+            "/ping",
+            body=json.dumps({}).encode("utf-8"),
+            headers={"Content-Type": "application/json"},
+        )
+
+        if verbose:
+            print("{:s} - {:3d}".format(
+                datetime.datetime.now().strftime("%d/%m/%Y %H:%M:%S"),
+                resp.status_code
+            ))
+
+        if resp.status_code != 429: return resp
+
+        time.sleep(retry_every)
+
+        curr_time = time.time()
+        elapsed_time = curr_time - init_time
+        if (timeout is not None) and (elapsed_time >= timeout):
+            return None
