@@ -116,33 +116,54 @@ def wait_until_model_is_ready(
 
     Returns:
 
-        requests.models.Response or None:
-            When any ping invocation responds with a status code other than 429, the response
-            object will be returned.
-            If a timeout is issued, `None` will be returned instead.
+        bool:
+            `True` iff the model is ready.
     """
 
     init_time = time.time()
 
     while True:
 
-        resp = endpoint.invoke(
-            "/ping",
-            body=json.dumps({}).encode("utf-8"),
-            headers={"Content-Type": "application/json"},
-        )
+        try:
+
+            resp = endpoint.invoke(
+                "/ping",
+                body=json.dumps({}).encode("utf-8"),
+                headers={"Content-Type": "application/json"},
+            )
+        
+        except:
+
+            if verbose:
+                print("Unexpected error")
+
+            return False
 
         if verbose:
-            print("{:s} - {:3d}".format(
+
+            msg = "{:s} - {:3d}".format(
                 datetime.datetime.now().strftime("%d/%m/%Y %H:%M:%S"),
                 resp.status_code
-            ))
+            )
 
-        if resp.status_code != 429: return resp
+            if resp.status_code == 200:
+                msg += " (Model ready)"
+            elif resp.status_code == 429:
+                msg += " (Model scaleup...)"
+            else:
+                msg += " (Unexpected status code - Please report this issue)"
+
+            print(msg)
+
+        if resp.status_code == 200: return True
 
         time.sleep(retry_every)
 
         curr_time = time.time()
         elapsed_time = curr_time - init_time
         if (timeout is not None) and (elapsed_time >= timeout):
-            return None
+
+            if verbose:
+                print("Timeout exceeded")
+                
+            return False

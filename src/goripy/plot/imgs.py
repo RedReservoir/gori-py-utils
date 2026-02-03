@@ -5,6 +5,7 @@ import numpy
 import torch
 
 import matplotlib
+import matplotlib.pyplot
 
 import goripy.plot.grid
 
