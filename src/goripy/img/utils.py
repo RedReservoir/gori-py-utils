@@ -18,7 +18,7 @@ def compute_target_img_size_max(
         curr_size (2-tuple of int):
             Current image size (H x W).
 
-        curr_size (2-tuple of int):
+        max_size (2-tuple of int):
             Maximum image size (H x W).
 
     Returns:
@@ -60,7 +60,7 @@ def compute_target_img_size_min(
         curr_size (2-tuple of int):
             Current image size (H x W).
 
-        curr_size (2-tuple of int):
+        min_size (2-tuple of int):
             Maximum image size (H x W).
 
     Returns:
@@ -93,6 +93,22 @@ def compute_img_pad_sizes(
     curr_size,
     target_size
 ):
+    """
+    Computes required padding to pad an image to a target size.
+
+    Args:
+
+        curr_size (2-tuple of int):
+            Current image size (H x W).
+
+        target_size (2-tuple of int):
+            Target image size (H x W).
+
+    Returns:
+    
+        4-tuple of int:
+            Required padding (top, bottom, left, right).
+    """
 
     curr_h, curr_w = curr_size
     tgt_h, tgt_w = target_size
@@ -103,18 +119,17 @@ def compute_img_pad_sizes(
     if curr_w > tgt_w :
         raise ValueError("Current width exceeds target width")
 
-    pad_top = (tgt_h - curr_h) // 2
-    pad_bottom = (tgt_h - curr_h) - pad_top
+    pad_t = (tgt_h - curr_h) // 2
+    pad_b = (tgt_h - curr_h) - pad_t
 
-    pad_left = (tgt_w - curr_w) // 2
-    pad_right = (tgt_w - curr_w) - pad_left
+    pad_l = (tgt_w - curr_w) // 2
+    pad_r = (tgt_w - curr_w) - pad_l
 
-    return (
-        pad_top,
-        pad_bottom,
-        pad_left,
-        pad_right
-    )
+    return pad_t, pad_b, pad_l, pad_r
+
+
+
+########
 
 
 
@@ -122,7 +137,7 @@ def img_to_rgb(
     img
 ):
     """
-    Converts an image to RGB.
+    Converts an image to RGB format.
     
     Requires input data type `numpy.uint8`.
     Output data type will also be `numpy.uint8`.
@@ -174,83 +189,75 @@ def img_to_rgb(
 
 
 
-def pad_fill_img(
+def resize_pad_fill_img(
     img,
-    size,
+    target_size,
     fill_value=0
 ):
     """
-    Pads an image around the borders to a desired size.
-    Can handle images of shape (H x W) or (H x W x C).
-    
+    Resizes and then pads an image to match a target size, preserving the aspect ratio.
+    If the original data type of the image is `numpy.uint8`, it will be preserved.
+
     Args:
 
         img (numpy.ndarray):
             Original image.
+            Must have shape (H x W) or (H x W x C).
 
-        size (2-tuple of int or int):
-            The desired height and width of the padded image.
+        target_size (2-tuple of int or int):
+            The target height and width of the image.
             If one value is provided, both height and width will be set to that value.
 
-        fill_value (any, default=0):
-            Value(s) to fill the padding with. Must be compatible with the image data type.
+        fill_value (any):
+            Value to fill the padding with. Must be compatible with the image channel-wise.
+            Default: 0.
 
     Returns:
     
         numpy.ndarray:
-            New image with padding.
+            New image after resizing and padding.
     """
 
-    # Check image shape
+    # Pre-process arguments
 
-    if (len(img.shape) != 2) and (len(img.shape) != 3):
-        raise ValueError("Unexpected image shape: {:s}".format(str(img.shape)))
-
-    # Prepare args
-
-    size = goripy.args.arg_list_to_arg_arr(
-        size, 2, numpy.uint16
-    ).tolist()
+    target_size = goripy.args.arg_list_to_arg_arr(
+        target_size,
+        target_len=2,
+        target_dtype=numpy.uint16
+    )
+    target_size = tuple(map(int, target_size))
 
     fill_value = goripy.args.arg_list_to_arg_arr(
-        fill_value, 1 if len(img.shape) == 2 else img.shape[2], img.dtype
+        fill_value,
+        target_len=1 if len(img.shape) == 2 else img.shape[2],
+        target_dtype=img.dtype
     )
 
-    # Create padded image with fill value
+    # Resize image preserving aspect ratio, if necessary
 
-    pad_img_shape = size if len(img.shape) == 2 else (size[0], size[1], img.shape[2])
-    pad_img = numpy.empty(shape=pad_img_shape, dtype=img.dtype)
+    img_size = (img.shape[0], img.shape[1])
+    resize_size = compute_target_img_size_max(img_size, target_size)
 
-    # Fill padded image
+    if resize_size != img_size:
 
-    img_h, img_w = img.shape[0], img.shape[1]
-    pad_img_h, pad_img_w = size
+        cast_to_ubyte = (img.dtype == numpy.uint8) 
+        img = skimage.transform.resize(img, resize_size)
+        if cast_to_ubyte: img = skimage.util.img_as_ubyte(img)
 
-    copy_y0 = (pad_img_h - img_h) // 2
-    copy_y1 = copy_y0 + img_h
+    # Pad image to target size and fill padding, if necessary
+    
+    pad_t, pad_b, pad_l, pad_r = compute_img_pad_sizes(resize_size, target_size)
 
-    copy_x0 = (pad_img_w - img_w) // 2
-    copy_x1 = copy_x0 + img_w
+    if (pad_t, pad_b, pad_l, pad_r) != (0, 0, 0, 0):
 
-    ## Copy original image
+        if len(img.shape) == 2: pad_width = ((pad_t, pad_b), (pad_l, pad_r))
+        if len(img.shape) == 3: pad_width = ((pad_t, pad_b), (pad_l, pad_r), (0, 0))
 
-    pad_img[copy_y0:copy_y1, copy_x0:copy_x1] = img[:, :]
+        img = numpy.pad(img, pad_width=pad_width)
 
-    ## Fill border cornets
+        if pad_t > 0: img[:pad_t, :, :] = fill_value
+        if pad_b > 0: img[-pad_b:, :, :] = fill_value
+        if pad_l > 0: img[:, :pad_l, :] = fill_value
+        if pad_r > 0: img[:, -pad_r:, :] = fill_value
 
-    pad_img[0:copy_y0, 0:copy_x0] = fill_value
-    pad_img[0:copy_y0, copy_x1:pad_img_w] = fill_value
-    pad_img[copy_y1:pad_img_h, 0:copy_x0] = fill_value
-    pad_img[copy_y1:pad_img_h, copy_x1:pad_img_w] = fill_value
-
-    ## Fill border rectangles
-
-    pad_img[0:copy_y0, copy_x0:copy_x1] = fill_value
-    pad_img[copy_y1:pad_img_h, copy_x0:copy_x1] = fill_value
-    pad_img[copy_y0:copy_y1, 0:copy_x0] = fill_value
-    pad_img[copy_y0:copy_y1, copy_x1:pad_img_w] = fill_value
-
-    return pad_img
-
-
-
+    return img
