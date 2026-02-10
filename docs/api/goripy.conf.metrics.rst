@@ -1,7 +1,7 @@
-goripy.gcs.endpoint module
+goripy.conf.metrics module
 ==========================
 
-.. automodule:: goripy.gcs.endpoint
+.. automodule:: goripy.conf.metrics
    :members:
    :show-inheritance:
    :undoc-members:

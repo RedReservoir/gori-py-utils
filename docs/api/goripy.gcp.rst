@@ -1,7 +1,7 @@
-goripy.gcs package
+goripy.gcp package
 ==================
 
-.. automodule:: goripy.gcs
+.. automodule:: goripy.gcp
    :members:
    :show-inheritance:
    :undoc-members:
@@ -12,4 +12,4 @@ Submodules
 .. toctree::
    :maxdepth: 4
 
-   goripy.gcs.endpoint
+   goripy.gcp.endpoint

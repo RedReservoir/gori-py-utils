@@ -13,9 +13,11 @@ Subpackages
    :maxdepth: 4
 
    goripy.array
+   goripy.conf
    goripy.cvat
    goripy.file
-   goripy.gcs
+   goripy.gcp
+   goripy.gpu
    goripy.img
    goripy.mask
    goripy.memory
