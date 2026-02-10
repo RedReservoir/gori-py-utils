@@ -1,6 +1,6 @@
 # gori-py-utils
 
-A Python package containing many miscellaneous utilities used throughout many of my projects, serving as a central module with factorized code to avoid duplication. You can read further detailed documentation [here](https://gori-py-utils.readthedocs.io/en/latest/index.html).
+A Python package containing many miscellaneous utilities used throughout many of my projects, serving as a central module with factorized code to avoid duplication. You can read further detailed documentation [here](https://gori-py-utils.readthedocs.io/en/latest/).
 
 This is a fully functional package, but it is neither stable, distributable or in a production-ready state. No tests are being written, new features will constantly be implemented, heavy refactors may occur, and some documentation may not be up to date.
 
