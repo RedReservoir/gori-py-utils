@@ -1,8 +1,8 @@
-rm -rf source/api
-mkdir source/api
+rm -rf api
+mkdir api
 
 sphinx-apidoc \
-  -o source/api \
+  -o api \
   ../src/goripy \
   --force \
   --separate \
