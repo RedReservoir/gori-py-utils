@@ -1,12 +1,29 @@
 import numpy
 
+import goripy.args
 
 
-def crop_array_pads(
+
+def unpad(
     array,
     pad_width
 ):
     """
+    Crop an array. Inverse of `numpy.pad`.
+
+    Args:
+
+        array (numpy.ndarray):
+            The array to unpad.
+        
+        pad_width (any):
+            Number of values cropped to the edges of each axis. Functions similar to the
+            `pad_width` argument in `numpy.pad`.
+
+    Returns:
+
+        numpy.ndarray:
+            The unpadded array.
     """
 
     num_dims = len(array.shape)
@@ -18,7 +35,10 @@ def crop_array_pads(
             num_pads
         ))
 
-    pads_list = pad_width * (num_dims // num_pads)
+    pads_list = [
+        goripy.args.arg_list_to_arg_arr(pad_width_el, target_len=2, target_dtype=int)
+        for pad_width_el in pad_width
+    ] * (num_dims // num_pads)
 
     dim_slices = tuple(
         slice(pads[0], dim_size - pads[1])

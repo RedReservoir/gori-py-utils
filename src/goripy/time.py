@@ -1,3 +1,9 @@
+"""
+Time utils.
+"""
+
+
+
 def sprint_fancy_time_diff(time_diff, high_unit="hours"):
     """
     Generates a fancy string representation of a time difference.

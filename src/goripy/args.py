@@ -1,5 +1,5 @@
 """
-Docstring for goripy.args
+Method argument processing utils.
 """
 
 

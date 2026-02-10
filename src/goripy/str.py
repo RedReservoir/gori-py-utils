@@ -1,3 +1,9 @@
+"""
+String utils.
+"""
+
+
+
 def add_newlines(orig_str, line_len=None):
     """
     Adds newlines to a string.

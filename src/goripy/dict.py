@@ -1,3 +1,9 @@
+"""
+Dict utils.
+"""
+
+
+
 def chain_get(my_dict, *args, default=None):
     """
     Accesses a dict object repeatedly using dict.get() multiple times.

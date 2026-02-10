@@ -1,3 +1,3 @@
 """
-Docstring for goripy.plot
+Matplotlib plotting utils.
 """

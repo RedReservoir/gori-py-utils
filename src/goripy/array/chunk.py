@@ -6,7 +6,9 @@ import numpy
 
 def chunk_partition_size(arr, chunk_size):
     """
-    Partitions a numpy array into sub-arrays.
+    Partitions a numpy array into sub-arrays, ensuring:
+      - The size of all sub-arrays is as similar as possible.
+      - The size of all sub-arrays is always under a desired specified size.
 
     Args:
 
@@ -28,7 +30,8 @@ def chunk_partition_size(arr, chunk_size):
 
 def chunk_partition_num(arr, num_chunks):
     """
-    Partitions a numpy array into sub-arrays.
+    Partitions a numpy array into a given number of sub-arrays, ensuring:
+      - The size of all sub-arrays is as similar as possible.
 
     Args:
 
@@ -36,7 +39,7 @@ def chunk_partition_num(arr, num_chunks):
             1D numpy array to partition.
 
         num_chunks (int):
-            Desired number of chunks.
+            Desired number of sub-arrays.
 
     Returns:
 
@@ -50,7 +53,9 @@ def chunk_partition_num(arr, num_chunks):
 
 def chunk_partition_size_list(my_list, chunk_size):
     """
-    Partitions a list into sub-lists.
+    Partitions a list into sub-lists, ensuring:
+      - The size of all sub-lists is as similar as possible.
+      - The size of all sub-lists is always under a desired specified size.
 
     Args:
 
@@ -75,7 +80,8 @@ def chunk_partition_size_list(my_list, chunk_size):
 
 def chunk_partition_num_list(my_list, num_chunks):
     """
-    Partitions a list into sub-lists.
+    Partitions a list into a given number of sub-lists, ensuring:
+      - The size of all sub-lists is as similar as possible.
 
     Args:
 
@@ -83,7 +89,7 @@ def chunk_partition_num_list(my_list, num_chunks):
             List to partition.
 
         num_chunks (int):
-            Desired number of chunks.
+            Desired number of sub-lists.
 
     Returns:
     

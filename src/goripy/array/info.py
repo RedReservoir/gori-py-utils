@@ -9,8 +9,7 @@ def sprint_array_info(
     name=None
 ):
     """
-    Generates array information into a string.
-    Used for debug purposes.
+    Prints array information to a string.
 
     Args:
     

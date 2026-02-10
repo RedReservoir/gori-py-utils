@@ -9,8 +9,7 @@ def sprint_tensor_info(
     name=None
 ):
     """
-    Generates tensor information into a string.
-    Used for debug purposes.
+    Prints tensor information into a string.
 
     Args:
 
@@ -48,8 +47,7 @@ def sprint_tensor_stats(
     name=None
 ):
     """
-    Generates tensor information into a string.
-    Used for debug purposes.
+    Prints tensor stats into a string.
 
     :param tensor: torch.Tensor
         Tensor to print information from.

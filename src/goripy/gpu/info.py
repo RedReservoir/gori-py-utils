@@ -8,8 +8,7 @@ def sprint_device_memory_usage(
     device
 ):
     """
-    Generates torch device information into a string.
-    Used for debug purposes.
+    Prints torch device information into a string.
 
     Args:
     
