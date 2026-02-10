@@ -34,6 +34,7 @@ exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 
 html_theme = 'sphinx_rtd_theme'
 html_static_path = ['_static']
+html_baseurl = os.environ.get("READTHEDOCS_CANONICAL_URL", "/")
 
 # Optional: Configure Napoleon behavior
 napoleon_google_docstring = True
