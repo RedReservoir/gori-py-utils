@@ -1,39 +1,22 @@
 # gori-py-utils
 
-Miscellaneous Python utilities
+A Python package containing many miscellaneous utilities used throughout many of my projects, serving as a central module with factorized code to avoid duplication. You can read further detailed documentation here (TODO add link).
 
-## Installation
+This is a fully functional package, but it is neither stable, distributable or in a production-ready state. No tests are being written, new features will constantly be implemented, heavy refactors may occur, and some documentation may not be up to date.
 
-You can install this Python package directly from GitHub via:
+As such, no dependencies with accurate versions are listed in the `pyproject.toml` file, and none will be installed when installing this package. However, the list below roughly outlines other used packages, which you will need to install. 
+
+  - `tqdm`
+  - `numpy`
+  - `matplotlib`
+  - `scikit-learn`
+  - `scikit-image`
+  - `opencv-python`
+  - `pillow`
+  - `torch`
+
+You can install this Python package directly from GitHub:
 
 ```
 pip install git+https://github.com/RedReservoir/gori-py-utils
 ```
-
-Alternatively, you may install from local by following these steps:
-
-  1. Clone or download this repository. After this, you will have a `gori-py-utils` directory in your local.
-  2. Move into the parent directory of the `gori-py-utils` and run:
-
-```
-pip install gori-py-utils
-```
-
-## Usage
-
-After installation, import code from this package using `goripy` as the top-level module name: 
-
-```
-import goripy.<...>
-```
-
-## Documentation
-
-Documentation in HTML format can be generated with `sphinx` by running:
-
-```
-cd docs
-make html
-```
-
-Afterwards, you can browse the documentation by viewing the `docs/_build/html/index.html` file in your web browser.

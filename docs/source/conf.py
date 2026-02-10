@@ -22,8 +22,10 @@ release = '0.0.0'
 
 extensions = [
     "sphinx.ext.autodoc",
+    "sphinx.ext.autosummary",
     "sphinx.ext.napoleon",      # optional, for Google/NumPy style docstrings
     "sphinx.ext.viewcode",      # optional, adds links to source code
+    "myst_parser",
 ]
 
 templates_path = ['_templates']
@@ -36,6 +38,12 @@ html_theme = 'sphinx_rtd_theme'
 html_static_path = ['_static']
 html_baseurl = os.environ.get("READTHEDOCS_CANONICAL_URL", "/")
 
+html_theme_options = {
+    "collapse_navigation": False,
+    "navigation_depth": -1,
+    "sticky_navigation": True,
+}
+
 # Optional: Configure Napoleon behavior
 napoleon_google_docstring = True
 napoleon_numpy_docstring = False
@@ -44,3 +52,5 @@ napoleon_include_private_with_doc = False
 napoleon_include_special_with_doc = True
 napoleon_use_param = True
 napoleon_use_rtype = True
+
+autosummary_generate = True
