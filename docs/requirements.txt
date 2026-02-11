@@ -7,3 +7,11 @@ sphinxcontrib-jsmath
 sphinxcontrib-qthelp
 sphinxcontrib-serializinghtml
 myst-parser
+tqdm
+numpy
+matplotlib
+scikit-learn
+scikit-image
+opencv-python
+pillow
+torch
