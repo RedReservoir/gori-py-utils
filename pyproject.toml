@@ -10,4 +10,4 @@ version = "0.0.0"
 authors = [
   { name="RedReservoir", email="gerard.ortega88@gmail.com" },
 ]
-description = "Miscellaneous Python utilities"
+description = "Miscellaneous Python utilities for gori projects"
