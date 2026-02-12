@@ -3,7 +3,7 @@ import torch
 from goripy.tensor.info import sprint_tensor_info, sprint_tensor_stats
 
 
-class CategoricalCrossEntropyLoss():
+class CategoricalCrossEntropyLoss:
     """
     Categorical Cross-Entropy Loss function for category prediction.
 
@@ -17,14 +17,20 @@ class CategoricalCrossEntropyLoss():
         cls_weights (torch.Tensor, optional):
             (C) dimensional tensor with class weights.
             If not provided, uniform weights will be used.
+
+        label_smoothing (float):
+            Label smoothing coefficient. Must lie in the (0, 1) interval.
+            If not provided, no label smoothing will be applied.
     """
 
     def __init__(
         self,
-        cls_weights=None
+        cls_weights=None,
+        label_smoothing=None
     ):
         
         self._cls_weights = cls_weights
+        self._label_smoothing = label_smoothing
 
 
     def __call__(
@@ -43,7 +49,7 @@ class CategoricalCrossEntropyLoss():
                 Logits are features that are unnormalized with no activation function.
 
             target_probs (torch.Tensor):
-                (B x C) dimensional tensor with target one-hot encoded categories.
+                (B x C) dimensional tensor with target probabilities (one-hot encoded categories).
 
             inst_weights (torch.Tensor, optional):
                 (B x C) dimensional tensor with instance weights.
@@ -55,8 +61,11 @@ class CategoricalCrossEntropyLoss():
                 (B) dimensional tensor with the unreduced loss values.
         """
 
+        if self._label_smoothing is not None:
+            self._apply_label_smoothing(target_probs)
+
         pred_probs = torch.softmax(pred_logits, dim=1)
-        
+
         loss_ten = target_probs * torch.log(pred_probs)
 
         if self._cls_weights is not None:
@@ -70,62 +79,32 @@ class CategoricalCrossEntropyLoss():
         return loss_ten
 
 
+    def _apply_label_smoothing(
+        self,
+        target_probs
+    ):
+        """
+        Applies generalized label smoothing (inplace).
 
-def categorical_cross_entropy_loss(
-    pred_logits,
-    target_probs,
-    cls_weights=None,
-    inst_weights=None
-):
-    """
-    Categorical Cross-Entropy Loss function for category prediction.
-    Functional version.
+        Args:
 
-    Tensor dimensions:
+            target_probs (torch.Tensor):
+                (B x C) dimensional tensor with target probabilities (one-hot encoded categories).
+        """
 
-    - B: Batch size
-    - C: Number of classes
+        cen_pull = (2 * target_probs) - 1
 
-    Args:
+        pos_pull = torch.maximum(cen_pull, 0)
+        neg_pull = torch.maximum(-cen_pull, 0)
 
-        pred_logits (torch.Tensor):
-            (B x C) dimensional tensor with predicted category logits.
-            Logits are features that are unnormalized with no activation function.
+        pos_pull /= numpy.sum(pos_pull)
+        neg_pull /= numpy.sum(neg_pull)
 
-        target_probs (torch.Tensor):
-            (B x C) dimensional tensor with target one-hot encoded categories.
-
-        cls_weights (torch.Tensor, optional):
-            (C) dimensional tensor with class weights.
-            If not provided, uniform weights will be used.
-
-        inst_weights (torch.Tensor, optional):
-            (B x C) dimensional tensor with instance weights.
-            If not provided, uniform weights will be used.
-
-    Returns:
-
-        torch.Tensor:
-            (B) dimensional tensor with the unreduced loss values.
-    """
-
-    pred_probs = torch.softmax(pred_logits, dim=1)
-    
-    loss_ten = target_probs * torch.log(pred_probs)
-
-    if cls_weights is not None:
-        loss_ten *= cls_weights[None, :]
-
-    if inst_weights is not None:
-        loss_ten *= inst_weights
-
-    loss_ten = - torch.sum(loss_ten, axis=1)
-
-    return loss_ten
+        target_probs -= (pos_pull - neg_pull) * self._label_smoothing
 
 
 
-class BinaryCrossEntropyLoss():
+class BinaryCrossEntropyLoss:
     """
     Binary Cross-Entropy Loss function for multi-attribute prediction.
 
@@ -143,17 +122,23 @@ class BinaryCrossEntropyLoss():
         neg_attr_weights (torch.Tensor):
             (A) dimensional tensor with attribute negative weights.
             If not provided, uniform weights will be used.
+
+        label_smoothing (float):
+            Label smoothing coefficient. Must lie in the (0, 1) interval.
+            If not provided, no label smoothing will be applied.
     """
 
     def __init__(
         self,
         pos_attr_weights=None,
-        neg_attr_weights=None
+        neg_attr_weights=None,
+        label_smoothing=None
     ):
         
         self._pos_attr_weights = pos_attr_weights
         self._neg_attr_weights = neg_attr_weights
-        
+        self._label_smoothing = label_smoothing
+
 
     def __call__(
         self,
@@ -171,7 +156,7 @@ class BinaryCrossEntropyLoss():
                 Logits are features that are unnormalized with no activation function.
 
             target_probs (torch.Tensor):
-                (B x A) dimensional tensor with target one-hot encoded attributes.
+                (B x A) dimensional tensor with target probabilities (one-hot encoded attributes).
 
             inst_weights (torch.Tensor, optional):
                 (B x A) dimensional tensor with instance weights.
@@ -182,6 +167,9 @@ class BinaryCrossEntropyLoss():
             torch.Tensor:
                 (B) dimensional tensor with the unreduced loss values.
         """
+
+        if self._label_smoothing is not None:
+            self._apply_label_smoothing(target_probs)
 
         pred_probs = torch.sigmoid(pred_logits)        
 
@@ -201,67 +189,21 @@ class BinaryCrossEntropyLoss():
         loss_ten = - torch.sum(loss_ten, axis=1)
 
         return loss_ten
-        
 
 
-def binary_cross_entropy_loss(
-    pred_logits,
-    target_probs,
-    pos_attr_weights=None,
-    neg_attr_weights=None,
-    inst_weights=None
-):
-    """
-    Binary Cross-Entropy Loss function for multi-attribute prediction.
-    Functional version.
+    def _apply_label_smoothing(
+        self,
+        target_probs
+    ):
+        """
+        Applies generalized label smoothing (inplace).
 
-    Tensor dimensions:
+        Args:
 
-    - B: Batch size
-    - A: Number of attributes
+            target_probs (torch.Tensor):
+                (B x A) dimensional tensor with target probabilities (one-hot encoded attributes).
+        """
 
-    Args:
+        cen_pull = (2 * target_probs) - 1
 
-        pred_logits (torch.Tensor):
-            (B x A) dimensional tensor with predicted attribute logits.
-            Logits are features that are unnormalized with no activation function.
-
-        target_probs (torch.Tensor):
-            (B x A) dimensional tensor with target one-hot encoded attributes.
-
-        pos_attr_weights (torch.Tensor):
-            (A) dimensional tensor with attribute positive weights.
-            If not provided, uniform weights will be used.
-
-        neg_attr_weights (torch.Tensor):
-            (A) dimensional tensor with attribute negative weights.
-            If not provided, uniform weights will be used.
-
-        inst_weights (torch.Tensor, optional):
-            (B x A) dimensional tensor with instance weights.
-            If not provided, uniform weights will be used.
-
-    Returns:
-
-        torch.Tensor:
-            (B) dimensional tensor with the unreduced loss values.
-    """
-
-    pred_probs = torch.sigmoid(pred_logits)        
-
-    pos_loss_ten = target_probs * torch.log(pred_probs)
-    if pos_attr_weights is not None:
-        pos_loss_ten *= pos_attr_weights[None, :]
-
-    neg_loss_ten = (1 - target_probs) * torch.log(1 - pred_probs)
-    if neg_attr_weights is not None:
-        neg_loss_ten *= neg_attr_weights[None, :]
-
-    loss_ten = pos_loss_ten + neg_loss_ten
-
-    if inst_weights is not None:
-        loss_ten *= inst_weights
-
-    loss_ten = - torch.sum(loss_ten, axis=1)
-
-    return loss_ten
+        target_probs -= cen_pull * self._label_smoothing
