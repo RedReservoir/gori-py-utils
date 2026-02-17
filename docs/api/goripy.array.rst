@@ -14,6 +14,7 @@ Submodules
 
    goripy.array.chunk
    goripy.array.info
+   goripy.array.list
    goripy.array.misc
    goripy.array.pad
    goripy.array.ratio
