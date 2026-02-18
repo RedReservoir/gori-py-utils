@@ -193,7 +193,7 @@ def save_storage_dict(
     dirname
 ):
     """
-    Saves a dict where all leaf elements are VariableLength2DListStorage objects.
+    Saves a dict where all leaf elements are VariableLength2DListStorage or `None` objects.
     Data is saved into a directory reproducing the dict structure.
 
     Args:
@@ -222,9 +222,14 @@ def save_storage_dict(
         
         elif type(value) is VariableLength2DListStorage:
 
-            storage_filename = os.path.join(dirname, key + ".npz")
+            storage_filename = os.path.join(dirname, "{:s}.npz".format(key))
             value.save(storage_filename)
         
+        elif value is None:
+
+            storage_filename = os.path.join(dirname, "{:s}.npz".format(key))
+            numpy.savez(storage_filename, inv=numpy.asarray([]))
+
         else:
 
             raise ValueError("Invalid value type found. Expected {:s} or {:s}, found {:s}".format(
@@ -239,7 +244,7 @@ def load_storage_dict(
     dirname
 ):
     """
-    Loads a dict where all leaf elements are VariableLength2DListStorage objects.
+    Loads a dict where all leaf elements are VariableLength2DListStorage or `None` objects.
     Data is loaded from a directory reproducing the dict structure.
 
     Args:
@@ -260,7 +265,14 @@ def load_storage_dict(
         full_subname = os.path.join(dirname, subname)
 
         if os.path.isfile(full_subname):
-            storage = VariableLength2DListStorage.load(full_subname)
+
+            npz_data = numpy.load(full_subname)
+
+            if "inv" in npz_data:
+                storage = None
+            else:
+                storage = VariableLength2DListStorage.load(full_subname)
+            
             storage_dict[subname.split(".")[0]] = storage
 
         if os.path.isdir(full_subname):

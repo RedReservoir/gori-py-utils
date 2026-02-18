@@ -15,6 +15,7 @@ Subpackages
    goripy.array
    goripy.conf
    goripy.cvat
+   goripy.dict
    goripy.file
    goripy.gcp
    goripy.gpu
@@ -33,7 +34,6 @@ Submodules
    :maxdepth: 4
 
    goripy.args
-   goripy.dict
    goripy.log
    goripy.pickle
    goripy.str
