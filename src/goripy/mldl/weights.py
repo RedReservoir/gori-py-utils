@@ -92,10 +92,11 @@ def compute_pos_neg_freq_weights(
     Returns:
 
         tuple of numpy.ndarray:
+
             A tuple containing:
             
             - pos_wt_arr: The computed positive weight values.
-            - wt_arr: The computed overall weight values.
+            - neg_wt_arr: The computed negative weight values.
     """
 
     # Compute default parameters
