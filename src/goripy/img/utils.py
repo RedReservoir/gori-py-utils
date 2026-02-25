@@ -255,9 +255,9 @@ def resize_pad_fill_img(
 
         img = numpy.pad(img, pad_width=pad_width)
 
-        if pad_t > 0: img[:pad_t, :, :] = fill_value
-        if pad_b > 0: img[-pad_b:, :, :] = fill_value
-        if pad_l > 0: img[:, :pad_l, :] = fill_value
-        if pad_r > 0: img[:, -pad_r:, :] = fill_value
+        if pad_t > 0: img[:pad_t, :] = fill_value
+        if pad_b > 0: img[-pad_b:, :] = fill_value
+        if pad_l > 0: img[:, :pad_l] = fill_value
+        if pad_r > 0: img[:, -pad_r:] = fill_value
 
     return img
