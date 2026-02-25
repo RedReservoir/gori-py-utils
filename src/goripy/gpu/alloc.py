@@ -1,4 +1,5 @@
 import os
+import shutil
 
 import numpy
 
@@ -9,30 +10,69 @@ import goripy.file.json
 class DeviceAllocator:
     """
     Manages GPU device allocation for multiple processes.
-    Internal state is persisted by updating files form the local storage.
-    Does not implement locking mechanisms.
+    Internal state is persisted by updating local storage files.
+    Calls to methods of this class should be surrounded by locks.
     
     :param data_dirname: str
-        Directory where to store internal state for this class. Must exist beforehand.
-    :param device_cap_arr: numpy.ndarray
-        A 1D signed integer numpy array with the device capacity values.
-        Must contain values greater than zero.
+        Directory where to store internal state.
     """
 
     def __init__(
         self,
-        data_dirname,
-        device_cap_arr
+        data_dirname
     ):
 
         self._data_dirname = data_dirname
 
-        # Generate internal state and save
 
-        self._device_cap_arr = device_cap_arr.copy()
-        self._tenant_map = {}
+    @staticmethod
+    def initialize_data(
+        data_dirname,
+        device_cap_arr
+    ):
+        """
+        Initializes fresh data to be read by instances of this class.
 
-        self._save()
+        :param data_dirname: str
+            Directory where to store internal state.
+        :param device_cap_arr: numpy.ndarray
+            A 1D unsigned integer numpy array with the device capacity values.
+            Must contain values greater than zero.
+        """
+        
+        device_alloc_signal_filename = os.path.join(data_dirname, "device_alloc.txt")
+
+        # Delete old internal state data directory
+        # Implements safeguard not to accidentally delete important directories
+
+        if os.path.exists(data_dirname):
+            
+            if not os.path.exists(device_alloc_signal_filename):
+
+                err_msg = "Directory \"{:s}\" does not contain device allocator data".format(
+                    data_dirname
+                )
+
+                raise ValueError(err_msg)
+
+            shutil.rmtree(data_dirname)
+
+        # Create new internal state data directory
+
+        os.mkdir(data_dirname)
+
+        with open(device_alloc_signal_filename, "w"):
+            pass
+
+        numpy.save(
+            os.path.join(data_dirname, "device_cap_arr.npy"),
+            device_cap_arr
+        )
+
+        goripy.file.json.save_json(
+            {},
+            os.path.join(data_dirname, "tenant_alloc_map.json")
+        )
 
 
     def allocate(
@@ -44,6 +84,8 @@ class DeviceAllocator:
         Allocates device capacity for a tenant, automatically selecting the device index.
         This method will fail if not enough device capacity is available.
         
+        Prioritizes devices with the least remaining capacity.
+
         :param tenant_id: str
             ID of the tenant allocating device capacity.
         :param device_cap: int
@@ -56,6 +98,16 @@ class DeviceAllocator:
         # Load internal state
 
         self._load()
+
+        # If tenant ID already exists, error
+
+        if tenant_id in self._tenant_alloc_map:
+
+            err_msg = "Tenant ID ({:s}) already exists".format(
+                tenant_id,
+            )
+            
+            raise ValueError(err_msg)
 
         # Select available resource index to allocate
 
@@ -77,7 +129,7 @@ class DeviceAllocator:
 
         self._device_cap_arr[device_idx] -= req_device_cap
 
-        self._tenant_map[tenant_id] = {
+        self._tenant_alloc_map[tenant_id] = {
             "device_idx": int(device_idx),
             "req_device_cap": int(req_device_cap)
         }
@@ -105,17 +157,17 @@ class DeviceAllocator:
 
         # Load tenant allocation data
 
-        if tenant_id not in self._tenant_map:
+        if tenant_id not in self._tenant_alloc_map:
             return
 
-        device_idx = self._tenant_map[tenant_id]["device_idx"]
-        req_device_cap = self._tenant_map[tenant_id]["req_device_cap"]
+        device_idx = self._tenant_alloc_map[tenant_id]["device_idx"]
+        req_device_cap = self._tenant_alloc_map[tenant_id]["req_device_cap"]
 
         # Update internal state and save
 
         self._device_cap_arr[device_idx] += req_device_cap
 
-        del self._tenant_map[tenant_id]
+        del self._tenant_alloc_map[tenant_id]
 
         self._save()
 
@@ -134,7 +186,7 @@ class DeviceAllocator:
 
         self._load()
         
-        return list(self._tenant_map.keys())
+        return list(self._tenant_alloc_map.keys())
 
 
     def _save(
@@ -150,8 +202,8 @@ class DeviceAllocator:
         )
 
         goripy.file.json.save_json(
-            self._tenant_map,
-            os.path.join(self._data_dirname, "tenant_map.json")
+            self._tenant_alloc_map,
+            os.path.join(self._data_dirname, "tenant_alloc_map.json")
         )
         
 
@@ -166,6 +218,6 @@ class DeviceAllocator:
             os.path.join(self._data_dirname, "device_cap_arr.npy")
         )
 
-        self._tenant_map = goripy.file.json.load_json(
-            os.path.join(self._data_dirname, "tenant_map.json")
+        self._tenant_alloc_map = goripy.file.json.load_json(
+            os.path.join(self._data_dirname, "tenant_alloc_map.json")
         )
