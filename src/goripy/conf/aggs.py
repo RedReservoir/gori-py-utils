@@ -25,7 +25,7 @@ def pn_normalize_conf_aggs(
             Aggregates are expected in this order: tp, fp, fn, tn.
     """
 
-    conf_aggs = conf_aggs.astype(float)
+    conf_aggs = conf_aggs.copy().astype(float)
 
     p_arr = conf_aggs[:, 0] + conf_aggs[:, 2]
     n_arr = conf_aggs[:, 1] + conf_aggs[:, 3]
