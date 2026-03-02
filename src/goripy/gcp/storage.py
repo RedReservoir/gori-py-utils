@@ -94,22 +94,26 @@ def download_gcs_directory(
     # Generate GCS blobs
 
     bucket = gcs_client.bucket(bucket_name)
-
     prefix = src_dirname
-    if not prefix.endswith("/"): prefix += "/"
 
     for blob in gcs_client.list_blobs(bucket, prefix=prefix):
 
-        # Remove prefix from blob name to recreate relative path
+        blob_name = blob.name
+        blob_rel_name = blob_name[len(prefix)+1:]
         
-        blob_rel_name = blob.name[len(prefix):]
+        # Skip if depth is exceeded
 
-        blob_depth = len(blob_rel_name.split(os.path.sep))
-        if blob_depth > depth: continue
+        blob_depth = 0 if blob_rel_name == "" else len(blob_rel_name.split(os.path.sep))
+        if depth is not None and blob_depth > depth:
+            continue
 
         # Create parent directories and download file
 
-        dst_filename = pathlib.Path(dst_dirname) / blob_rel_name
+        blob_dst_path = pathlib.Path(dst_dirname) / blob_rel_name
+        blob_dst_path_parent = pathlib.Path(blob_dst_path).parent
 
-        dst_filename.parent.mkdir(parents=True, exist_ok=True)
-        blob.download_to_filename(dst_filename)
+        print("Create", blob_dst_path_parent)
+        os.makedirs(blob_dst_path_parent, exist_ok=True)
+
+        blob_is_dir = blob_name.endswith(os.path.sep)
+        if not blob_is_dir: blob.download_to_filename(blob_dst_path)
