@@ -34,6 +34,7 @@ Submodules
    :maxdepth: 4
 
    goripy.args
+   goripy.lock
    goripy.log
    goripy.pickle
    goripy.str

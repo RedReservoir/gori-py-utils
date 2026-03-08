@@ -13,3 +13,4 @@ Submodules
    :maxdepth: 4
 
    goripy.gcp.endpoint
+   goripy.gcp.storage
