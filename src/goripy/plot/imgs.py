@@ -28,7 +28,7 @@ class ShowImgsGridMode(enum.Enum):
 
 def show_imgs(
     img_list,
-    title_mode=ShowImgsTitleMode.NO_TITLE,
+    title_mode=ShowImgsTitleMode.CUSTOM,
     title_list=None,
     title_size=10,
     suptitle=None,

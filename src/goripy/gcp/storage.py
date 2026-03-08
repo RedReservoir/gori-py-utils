@@ -112,7 +112,6 @@ def download_gcs_directory(
         blob_dst_path = pathlib.Path(dst_dirname) / blob_rel_name
         blob_dst_path_parent = pathlib.Path(blob_dst_path).parent
 
-        print("Create", blob_dst_path_parent)
         os.makedirs(blob_dst_path_parent, exist_ok=True)
 
         blob_is_dir = blob_name.endswith(os.path.sep)
