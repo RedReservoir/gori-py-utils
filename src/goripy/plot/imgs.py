@@ -177,7 +177,7 @@ def show_imgs(
     axs = axs.flatten()
 
     for ax, img, title in zip(axs, img_list, title_list):
-        ax.imshow(img)
+        if img is not None: ax.imshow(img)
         ax.set_title(title, fontsize=title_size)
         if not img_ticks:
             ax.set_xticks([])

@@ -2,6 +2,8 @@ import xml
 
 import numpy
 
+import cv2
+
 import goripy.mask.bbox
 import goripy.mask.rle
 
@@ -50,6 +52,44 @@ def read_mask_from_xml_item(
     full_mask[mask_y:mask_y+mask_h, mask_x:mask_x+mask_w] = mask[:, :]
 
     return full_mask
+
+
+
+def read_polygon_from_xml_item(
+    poly_xml_item,
+    img_h,
+    img_w,
+):
+    """
+    Reads a polygon mask from a CVAT format annotation file.
+    The following fields of `poly_xml_item` are read:
+
+    - `points`
+
+    Args:
+        poly_xml_item (xml.etree.ElementTree.ElementTree):
+            Target `<polygon>` XML node to read the mask from.
+        img_h (int):
+            Original image height.
+            Can be found in the parent `<image>` XML node.
+        img_w (int):
+            Original image width.
+            Can be found in the parent `<image>` XML node.
+
+    Returns:
+        numpy.ndarray:
+            A 2D boolean numpy array with the mask.
+    """
+
+    poly_point_arrr = numpy.round(numpy.asarray([
+        list(map(float, point_str.split(",")))
+        for point_str in poly_xml_item.get("points").split(";")
+    ])).astype(numpy.int32)
+
+    mask = numpy.zeros(shape=(img_h, img_w), dtype=numpy.uint8)
+    mask = cv2.fillPoly(mask, pts=[poly_point_arrr], color=1)
+    
+    return mask
 
 
 
